@@ -39,10 +39,9 @@ void Game::CollisionsGame() {
                 CheckCollisionRecs(spell1.getHitbox(), spell2.getHitbox()) && // colliding
                 spell1.IsProtectingType() ^ spell2.IsProtectingType()) { // exactly one is a protecting type (gaurd or shield)
                 // Remove both spells
-                activeSpells[i] = activeSpells.back();
-                activeSpells.pop_back();
-                activeSpells[j] = activeSpells.back();
-                activeSpells.pop_back();
+                activeSpells.erase(activeSpells.begin() + std::max(i, j)); // erase the one with the higher index first to avoid invalidating the lower index
+                activeSpells.erase(activeSpells.begin() + std::min(i, j));
+                std::cout << "Spells Collided and Removed" << std::endl;
                 
                 break;
             }
