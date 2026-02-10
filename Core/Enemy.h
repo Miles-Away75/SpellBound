@@ -13,12 +13,20 @@ enum AttackType {
     RunFromPlayer,
     FireballTowardsPlayer,
     GaurdTowardsPlayer,
-    FireballHeatSeeker,
     ThunderTowardsPlayer
 };
 
 const std::unordered_map<std::string, std::vector<AttackType>> enemyAttackPatterns = {
-    {"Enemy1", {FireballTowardsPlayer, MoveTowardsPlayer, ThunderTowardsPlayer, GaurdSpread, RunFromPlayer}}
+    {"Enemy1", {FireballTowardsPlayer, MoveTowardsPlayer, ThunderTowardsPlayer, GaurdSpread, RunFromPlayer}},
+    {"Boss1", {FireballTowardsPlayer, MoveTowardsPlayer, FireSpread, GaurdSpread, RunFromPlayer, ThunderTowardsPlayer}}
+};
+const std::unordered_map<std::string, int> enemyHealth = {
+    {"Enemy1", 30},
+    {"Boss1", 100}
+};
+const std::unordered_map<std::string, float> enemySpeeds = {
+    {"Enemy1", 100},
+    {"Boss1", 150}
 };
 
 const float timeBetweenAttacks = 2.0f;
@@ -30,8 +38,11 @@ class Enemy {
         float timeStartAttack = 0.0;
         bool doneAttack = false;
         Vector2 pos;
-        Enemy(Vector2 n_pos, std::string name) : pos(n_pos) {
+        int health;
+        std::string name;
+        Enemy(Vector2 n_pos, std::string n_name) : pos(n_pos), name(n_name) {
             attackPaterns = enemyAttackPatterns.at(name);
+            health = enemyHealth.at(name);
         }
 
         AttackType getAttack() {
@@ -43,7 +54,7 @@ class Enemy {
         }
         void Update(Vector2 playerPos, std::vector<Spell>& activeSpells, SmartTexture& texture) {
  
-            if (GetTime() - timeStartAttack > ((attackPaterns[currentAttack] == FireballHeatSeeker) ? timeBetweenAttacks * 2 : timeBetweenAttacks)) {
+            if (GetTime() - timeStartAttack >  timeBetweenAttacks) {
                 nextAttack();
                 doneAttack = false;
             }
@@ -69,17 +80,26 @@ class Enemy {
                     case MoveTowardsPlayer: 
                         // Move towards the player's position
                         direction = Normalize({playerPos.x - pos.x, playerPos.y - pos.y});
+
+                        direction = {direction.x * enemySpeeds.at("Enemy1") * GetFrameTime(), direction.y * enemySpeeds.at("Enemy1") * GetFrameTime()};
                         
-                        pos.x += direction.x * 100 * GetFrameTime(); // Move speed of 100 pixels/second
-                        pos.y += direction.y * 100 * GetFrameTime();
+                        if (CheckCollisionRecs({pos.x + direction.x, pos.y + direction.y, 42, 50}, {0, 0, (float)GetScreenWidth(), (float)GetScreenHeight()})) {
+                            pos.x += direction.x; 
+                            pos.y += direction.y;
+                        }
+                        
                         break;
                     
                     case RunFromPlayer: 
                         // Move away from the player's position
                         direction = Normalize({pos.x - playerPos.x, pos.y - playerPos.y});
 
-                        pos.x += direction.x * 100 * GetFrameTime(); // Move speed of 100 pixels/second
-                        pos.y += direction.y * 100 * GetFrameTime();
+                        direction = {direction.x * enemySpeeds.at("Enemy1") * GetFrameTime(), direction.y * enemySpeeds.at("Enemy1") * GetFrameTime()};
+                        
+                        if (CheckCollisionRecs({pos.x + direction.x, pos.y + direction.y, 42, 50}, {0, 0, (float)GetScreenWidth(), (float)GetScreenHeight()})) {
+                            pos.x += direction.x; 
+                            pos.y += direction.y;
+                        }
                         break;
                     case FireballTowardsPlayer:
                         direction = Normalize({playerPos.x - pos.x, playerPos.y - pos.y});
@@ -93,12 +113,6 @@ class Enemy {
                         activeSpells.push_back(Spell(Gaurd, angle, pos, Opposing));
                         doneAttack = true;
                         break;
-                    case FireballHeatSeeker:
-                        direction = Normalize({playerPos.x - pos.x, playerPos.y - pos.y});
-                        angle = atan2(direction.y, direction.x) * (180 / 3.14f);
-                        activeSpells.push_back(Spell(Fireball, angle, pos, Opposing, FollowPlayer));
-                        doneAttack = true;
-                        break;
                     case ThunderTowardsPlayer:
                         direction = Normalize({playerPos.x - pos.x, playerPos.y - pos.y});
                         angle = atan2(direction.y, direction.x) * (180 / 3.14f);
@@ -110,6 +124,11 @@ class Enemy {
             }
             
             texture.draw(pos);
+            // draw health bar
+            DrawRectangleRec({pos.x, pos.y - 10, 48, 5}, GRAY);
+            DrawRectangleRec({pos.x, pos.y - 10, 48.0f * (health / enemyHealth.at(name)), 5}, RED);
+            //std::cout << health/enemyHealth.at("Enemy1") << std::endl;
+            std::cout << health << std::endl;
             
         }
 };

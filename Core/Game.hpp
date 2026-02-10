@@ -28,7 +28,7 @@ void Game::loadLevel() {
     for (auto pair : levels[level].enemyPositions) {
         enemies.push_back(Enemy(pair.second, pair.first));
     }
-    health = 3;
+    health = 100;
     std::cout << "Loading Level\n";
 }
 
@@ -37,7 +37,6 @@ void Game::loadAssets() {
     spellSpritesheet.Init("Assets/Spells.png", 96, 96);
     playerSpritesheet.Init("Assets/Player.png", 126, 144);
     enemyTexture.Init("Assets/Enemies.png", 42, 50);
-    heartTexture.Init("Assets/Heart.png", 39, 33);
 }
 void Game::Run() {
     while (!WindowShouldClose() && isRunning) {
