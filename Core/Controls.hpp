@@ -14,6 +14,13 @@ void Game::DrawControls() {
     for (auto pair : bindedSpells) {
         DrawText(TextFormat("%c: ", pair.first), 50, 50 + i * 40, 20, BLACK);
         spellSpritesheet.draw(spellSprites.at(pair.second), {100, 50.0f + i * 40, 48, 48});
+        DrawButton({200, 50.0f + i * 40, 100, 30}, "Delete");
+        if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && CheckCollisionPointRec(GetMousePosition(), {200, 50.0f + i * 40, 100, 30})) {
+            spellInventory.push_back(pair.second);
+            bindedSpells.erase(pair.first);
+            spellTimes.erase(pair.first);
+            break;
+        }
         i++;
     }
     DrawButton({500, 500, 100, 50}, "Add New");
@@ -29,8 +36,8 @@ void Game::DrawControls() {
             case Shield:
                 text += "Shield ";
                 break;
-            case Trap:
-                text += "Trap ";
+            case Thunder:
+                text += "Thunder ";
                 break;
             
         }

@@ -6,23 +6,28 @@ void Game::CollisionsGame() {
     for (Spell spell : activeSpells) {
         // Player
         if (spell.mode == Opposing && spell.type != Gaurd && CheckCollisionRecs(spell.getHitbox(), {playerPos.x, playerPos.y, 42, 48}) && GetTime() - timeHit > 1.0f) {
-            health--;
+            health -= spell.info.damage;
             timeHit = GetTime();
         }
         // Enemies
         for (int i = 0; i < (int)enemies.size(); i++) {
             Enemy enemy = enemies[i];
             if (spell.mode == Peaceful && spell.type != Gaurd && CheckCollisionRecs(spell.getHitbox(), {enemy.pos.x, enemy.pos.y, 42, 50})) {
-                std::cout << "Hit Enemy" << std::endl;
-                enemies.erase(enemies.begin() + i);
-                break;
+                enemies[i].health -= spell.info.damage;
+                if (enemies[i].health <= 0) {
+                    enemies[i] = enemies.back();
+                    enemies.pop_back();
+                }
+                // Remove spell on hit
+                spell = activeSpells.back();
+                activeSpells.pop_back();
             }
         }
     }
     // Enemy with Player
     for (Enemy enemy : enemies) {
         if (CheckCollisionRecs({enemy.pos.x, enemy.pos.y, 42, 50}, {playerPos.x, playerPos.y, 42, 48}) && GetTime() - timeHit > 1.0f) {
-            health--;
+            health -= 10;
             timeHit = GetTime();
         }
     }
@@ -49,7 +54,7 @@ void Game::CollisionsGame() {
     if (health <= 0) {
         // Game Over logic here
         state = MainMenu;
-        health = 3;
+        health = 100;
     }
 
 }
