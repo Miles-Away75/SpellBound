@@ -29,6 +29,10 @@ void Game::DrawControls() {
             case Shield:
                 text += "Shield ";
                 break;
+            case Trap:
+                text += "Trap ";
+                break;
+            
         }
     }
     DrawText(text.c_str(), 50, 400, 20, BLACK);
@@ -48,5 +52,6 @@ void Game::EventsControls() {
         bindedSpells[key] = spellInventory.back();
         spellTimes[key] = 0.0f;
         spellInventory.pop_back();
+                      
     }
 }

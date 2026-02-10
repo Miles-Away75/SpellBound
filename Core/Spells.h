@@ -10,6 +10,7 @@ enum SpellType {
     Fireball,
     Gaurd,
     Shield,
+    Trap
     
 };
 enum Mode {
@@ -33,12 +34,14 @@ struct SpellInfo {
 const std::unordered_map<SpellType, SpellInfo> spellInfos = {// damage, piercing, cooldown, speed (px/s)
     {Fireball, {10, 0, 1.0f, 200.0f, Line}}, 
     {Gaurd, {0, 0, 1.0f, 200.0f, Line}},
-    {Shield, {0, 0, 5.0f, 0.0f, Stationary}}
+    {Shield, {0, 0, 5.0f, 0.0f, Stationary}},
+    {Trap, {10, 0, 5.0f, 0.0f, Stationary}}
 };
 const std::unordered_map<SpellType, Rectangle> spellSprites = { // Type : Sprite
     {Fireball, {0, 0, 48, 48}},
     {Gaurd, {48, 0, 48, 48}},
-    {Shield, {0, 48, 48, 48}}
+    {Shield, {0, 48, 48, 48}},
+    {Trap, {48, 48, 48, 48}}
 };
 const std::unordered_map<std::string, float> angles = {
     {"Up", 270},
