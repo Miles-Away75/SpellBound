@@ -103,9 +103,9 @@ void Game::GetPlayerControls() {
     // take spell inputs
     for (const auto& pair : bindedSpells) {
         if (IsKeyPressed(pair.first) && GetTime() - spellTimes[pair.first] > spellInfos.at(pair.second).cooldown) {
-            // Cast spell
             activeSpells.push_back(Spell(pair.second, playerDirection, playerPos, Peaceful));
             spellTimes[pair.first] = GetTime();
+            break;
         }
     }
 }
