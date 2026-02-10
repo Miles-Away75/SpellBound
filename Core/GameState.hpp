@@ -23,16 +23,9 @@ void Game::UpdateGame() {
 void Game::DrawCharacter() {
     // Draw the player character
     playerSpritesheet.draw(playerSprites.at(playerDirection), {playerPos.x, playerPos.y, 42, 48});
-    // draw hearts
-    if (health >= 3) {
-        heartTexture.draw({10, 10});
-    }
-    if (health >= 2) {
-        heartTexture.draw({50, 10});
-    }
-    if (health >= 1) {
-        heartTexture.draw({90, 10});
-    }
+    
+    DrawRectangleRec({15, 15, 100, 10}, GRAY);
+    DrawRectangleRec({15, 15, 100 * ((float)health / 100), 10}, RED);
 }
 void Game::DrawEnemies() {
     // Draw enemies
@@ -49,6 +42,19 @@ void Game::DrawSpells() {
             spell = activeSpells.back();
             activeSpells.pop_back();
         }
+    }
+    // draw Spell cooldowns
+    int i = 0;
+    for (auto pair : bindedSpells) {
+        float time = GetTime() - spellTimes[pair.first];
+        float cooldown = spellInfos.at(pair.second).cooldown;
+        if (time > cooldown) {
+            time = cooldown;
+        }
+        DrawText(TextFormat("%c", pair.first),10, 50.0f + i * 20, 20, BLACK);
+        DrawRectangleRec({25, 50.0f + i * 20, 40, 10}, GRAY);
+        DrawRectangleRec({25, 50.0f + i * 20, 40 * (time / cooldown), 10}, (time >= cooldown) ? GREEN : RED);
+        i++;
     }
 }
 void Game::GetPlayerControls() {
