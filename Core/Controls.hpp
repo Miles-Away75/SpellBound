@@ -39,6 +39,9 @@ void Game::DrawControls() {
             case Thunder:
                 text += "Thunder ";
                 break;
+            case Teleport:
+                text += "Teleport ";
+                break;
             
         }
     }

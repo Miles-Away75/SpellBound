@@ -10,8 +10,8 @@ enum SpellType {
     Fireball,
     Gaurd,
     Shield,
-    Thunder
-    
+    Thunder,
+    Teleport
 };
 enum Mode {
     Peaceful,
@@ -20,7 +20,8 @@ enum Mode {
 enum MovementType {
     Stationary,
     Line,
-    FollowPlayer
+    FollowPlayer,
+    NonPhysical
 };
 
 struct SpellInfo {
@@ -35,13 +36,15 @@ const std::unordered_map<SpellType, SpellInfo> spellInfos = {// damage, piercing
     {Fireball, {10, 0, 1.0f, 200.0f, Line}}, 
     {Gaurd, {0, 0, 1.0f, 200.0f, Line}},
     {Shield, {0, 0, 5.0f, 0.0f, Stationary}},
-    {Thunder, {10, 0, 5.0, 400, Line}}
+    {Thunder, {10, 0, 5.0, 400, Line}},
+    {Teleport, {0, 0, 20.0f, 0.0f, NonPhysical}}
 };
 const std::unordered_map<SpellType, Rectangle> spellSprites = { // Type : Sprite
     {Fireball, {0, 0, 48, 48}},
     {Gaurd, {48, 0, 48, 48}},
     {Shield, {0, 48, 48, 48}},
-    {Thunder, {48, 48, 48, 48}}
+    {Thunder, {48, 48, 48, 48}},
+    {Teleport, {96, 0, 48, 48}} // can be anything, never drawn
 };
 const std::unordered_map<std::string, float> angles = {
     {"Up", 270},
@@ -71,10 +74,11 @@ struct Spell {
         return type == Gaurd || type == Shield;
     }
     void Draw(Spritesheet& spritesheet, float dir) {
+        if (info.movementType == NonPhysical) return; // Teleport spell is invisible
         Rectangle spriteRect = spellSprites.at(type);   
         spritesheet.draw(spriteRect, {pos.x, pos.y, 48, 48}, dir);
     }
-    void UpdatePosition(Vector2 playerPos) {
+    void UpdatePosition(Vector2 & playerPos) {
         if (info.movementType == Stationary) return;
         if (info.movementType == FollowPlayer) {
             Vector2 direction = {playerPos.x - pos.x, playerPos.y - pos.y};
@@ -83,6 +87,11 @@ struct Spell {
             pos.y += direction.y * info.speed * GetFrameTime();
             return;
         }
+        if (type == Teleport) {
+            playerPos = {random(0, GetScreenWidth()), random(0, GetScreenHeight())};
+            return;
+        }
+
         Vector2 vel = {std::cos(dir * (3.14/180)) * info.speed, std::sin(dir * (3.14/180)) * info.speed};
         pos.x += vel.x * GetFrameTime();
         pos.y += vel.y * GetFrameTime();

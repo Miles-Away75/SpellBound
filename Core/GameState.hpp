@@ -37,6 +37,11 @@ void Game::DrawSpells() {
     for (Spell& spell : activeSpells) {
         spell.Draw(spellSpritesheet, spell.dir);
         spell.UpdatePosition(playerPos);
+        if (spell.type == Teleport) {
+            // Teleport spell is instant, remove after applying effect
+            spell = activeSpells.back();
+            activeSpells.pop_back();
+        }
         if (!CheckCollisionRecs(spell.getHitbox(), {0, 0, ScreenWidth, ScreenHeight})) {
             // Remove spell if it goes off-screen
             spell = activeSpells.back();
