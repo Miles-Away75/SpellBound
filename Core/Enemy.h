@@ -81,9 +81,12 @@ class Enemy {
                         // Move towards the player's position
                         direction = Normalize({playerPos.x - pos.x, playerPos.y - pos.y});
 
-                        direction = {direction.x * enemySpeeds.at("Enemy1") * GetFrameTime(), direction.y * enemySpeeds.at("Enemy1") * GetFrameTime()};
+                        direction = {direction.x * enemySpeeds.at(name) * GetFrameTime(), direction.y * enemySpeeds.at(name) * GetFrameTime()};
                         
-                        if (CheckCollisionRecs({pos.x + direction.x, pos.y + direction.y, 42, 50}, {0, 0, (float)GetScreenWidth(), (float)GetScreenHeight()})) {
+                        if (!CheckCollisionRecs({pos.x + direction.x, pos.y + direction.y, 42, 50}, {0, -1, (float)GetScreenWidth(), 1}) &&
+                            !CheckCollisionRecs({pos.x + direction.x, pos.y + direction.y, 42, 50}, {-1, 0, 1, (float)GetScreenHeight()}) &&
+                            !CheckCollisionRecs({pos.x + direction.x, pos.y + direction.y, 42, 50}, {0, (float)GetScreenHeight() - 1, (float)GetScreenWidth(), 1}) &&
+                            !CheckCollisionRecs({pos.x + direction.x, pos.y + direction.y, 42, 50}, {(float)GetScreenWidth() - 1, 0, 1, (float)GetScreenHeight()})) {
                             pos.x += direction.x; 
                             pos.y += direction.y;
                         }
@@ -94,9 +97,12 @@ class Enemy {
                         // Move away from the player's position
                         direction = Normalize({pos.x - playerPos.x, pos.y - playerPos.y});
 
-                        direction = {direction.x * enemySpeeds.at("Enemy1") * GetFrameTime(), direction.y * enemySpeeds.at("Enemy1") * GetFrameTime()};
+                        direction = {direction.x * enemySpeeds.at(name) * GetFrameTime(), direction.y * enemySpeeds.at(name) * GetFrameTime()};
                         
-                        if (CheckCollisionRecs({pos.x + direction.x, pos.y + direction.y, 42, 50}, {0, 0, (float)GetScreenWidth(), (float)GetScreenHeight()})) {
+                        if (!CheckCollisionRecs({pos.x + direction.x, pos.y + direction.y, 42, 50}, {0, -1, (float)GetScreenWidth(), 1}) &&
+                            !CheckCollisionRecs({pos.x + direction.x, pos.y + direction.y, 42, 50}, {-1, 0, 1, (float)GetScreenHeight()}) &&
+                            !CheckCollisionRecs({pos.x + direction.x, pos.y + direction.y, 42, 50}, {0, (float)GetScreenHeight() - 1, (float)GetScreenWidth(), 1}) &&
+                            !CheckCollisionRecs({pos.x + direction.x, pos.y + direction.y, 42, 50}, {(float)GetScreenWidth() - 1, 0, 1, (float)GetScreenHeight()})) {
                             pos.x += direction.x; 
                             pos.y += direction.y;
                         }
@@ -127,8 +133,6 @@ class Enemy {
             // draw health bar
             DrawRectangleRec({pos.x, pos.y - 10, 48, 5}, GRAY);
             DrawRectangleRec({pos.x, pos.y - 10, 48.0f * (health / enemyHealth.at(name)), 5}, RED);
-            //std::cout << health/enemyHealth.at("Enemy1") << std::endl;
-            std::cout << health << std::endl;
             
         }
 };
