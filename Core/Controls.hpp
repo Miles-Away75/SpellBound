@@ -29,6 +29,9 @@ void Game::DrawControls() {
             case Shield:
                 text += "Shield ";
                 break;
+            case Thunder:
+                text += "Thunder ";
+                break;
         }
     }
     DrawText(text.c_str(), 50, 400, 20, BLACK);

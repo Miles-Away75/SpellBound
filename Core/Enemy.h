@@ -13,11 +13,12 @@ enum AttackType {
     RunFromPlayer,
     FireballTowardsPlayer,
     GaurdTowardsPlayer,
-    FireballHeatSeeker
+    FireballHeatSeeker,
+    ThunderTowardsPlayer
 };
 
 const std::unordered_map<std::string, std::vector<AttackType>> enemyAttackPatterns = {
-    {"Enemy1", {FireballTowardsPlayer, MoveTowardsPlayer, GaurdSpread, RunFromPlayer}}
+    {"Enemy1", {FireballTowardsPlayer, MoveTowardsPlayer, ThunderTowardsPlayer, GaurdSpread, RunFromPlayer}}
 };
 
 const float timeBetweenAttacks = 2.0f;
@@ -96,6 +97,12 @@ class Enemy {
                         direction = Normalize({playerPos.x - pos.x, playerPos.y - pos.y});
                         angle = atan2(direction.y, direction.x) * (180 / 3.14f);
                         activeSpells.push_back(Spell(Fireball, angle, pos, Opposing, FollowPlayer));
+                        doneAttack = true;
+                        break;
+                    case ThunderTowardsPlayer:
+                        direction = Normalize({playerPos.x - pos.x, playerPos.y - pos.y});
+                        angle = atan2(direction.y, direction.x) * (180 / 3.14f);
+                        activeSpells.push_back(Spell(Thunder, angle, pos, Opposing));
                         doneAttack = true;
                         break;
                     
