@@ -5,9 +5,13 @@ void Game::CollisionsGame() {
     // Spell Collisions with Enemy and Player
     for (Spell spell : activeSpells) {
         // Player
-        if (spell.mode == Opposing && spell.type != Gaurd && CheckCollisionRecs(spell.getHitbox(), {playerPos.x, playerPos.y, 42, 48}) && GetTime() - timeHit > 1.0f) {
+        if (spell.mode == Opposing && spell.type != Gaurd && CheckCollisionRecs(spell.getHitbox(), {playerPos.x, playerPos.y, 42, 48})) {
             health -= spell.info.damage;
             timeHit = GetTime();
+            // remove spell on hit
+            spell = activeSpells.back();
+            activeSpells.pop_back();
+            break;
         }
         // Enemies
         for (int i = 0; i < (int)enemies.size(); i++) {
@@ -21,14 +25,8 @@ void Game::CollisionsGame() {
                 // Remove spell on hit
                 spell = activeSpells.back();
                 activeSpells.pop_back();
+                break;
             }
-        }
-    }
-    // Enemy with Player
-    for (Enemy enemy : enemies) {
-        if (CheckCollisionRecs({enemy.pos.x, enemy.pos.y, 42, 50}, {playerPos.x, playerPos.y, 42, 48}) && GetTime() - timeHit > 1.0f) {
-            health -= 10;
-            timeHit = GetTime();
         }
     }
     // Spells with Spells (specifically gaurds v others)
@@ -53,8 +51,17 @@ void Game::CollisionsGame() {
     }
     if (health <= 0) {
         // Game Over logic here
-        state = MainMenu;
-        health = 100;
+        state = GameOver;
+        health = 50;
+        timeBetweenAttacks = 2.0f;
+        spellInventory.clear();
+        activeSpells.clear();
+        enemies.clear();
+        bindedSpells = {{KEY_J, Fireball}, {KEY_K, Gaurd}, {KEY_L, Shield}};
+        spellTimes = {{KEY_J, -50.0f}, {KEY_K, -50.0f}, {KEY_L, -50.0f}};
+        level = 0;
+        std::cout << "Game Over\n";
+
     }
 
 }

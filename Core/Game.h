@@ -31,12 +31,14 @@ class Game {
         void UpdateGame();
         void UpdateControls();
         void UpdateEndofLevel();
+        void UpdateGameOver();
 
         void DrawCharacter();
         void DrawSpells();
         void DrawEnemies();
         void DrawControls();
         void DrawEndofLevel();
+        void DrawGameOver();
 
         void EventsGame();
         void GetPlayerControls();
@@ -60,7 +62,7 @@ class Game {
         std::vector<Spell> activeSpells;
         std::vector<SpellType> spellInventory = {};
         std::vector<Enemy> enemies;
-        int health = 100;
+        int health = 50;
         float timeHit = 0.0f;
 
 
@@ -80,7 +82,8 @@ class Game {
             MainMenu,
             Playing,
             Controls,
-            EndofLevel
+            EndofLevel,
+            GameOver
 
         } state = MainMenu;
 
@@ -99,6 +102,6 @@ class Game {
 #include "Controls.hpp"
 #include "Collisions.hpp"
 #include "EndofLevel.hpp"
-
+#include "GameOver.hpp"
 
 

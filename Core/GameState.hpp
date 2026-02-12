@@ -3,6 +3,7 @@
 
 
 void Game::UpdateGame() {
+    
     EventsGame();
         BeginDrawing();
         ClearBackground(RAYWHITE);
@@ -13,7 +14,7 @@ void Game::UpdateGame() {
     EndDrawing();
 
     CollisionsGame();
-
+    if (state != Playing) return;
     if (enemies.size() == 0) { 
         state = EndofLevel;
         spellInventory.push_back(levels[level].reward);

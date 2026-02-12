@@ -60,6 +60,9 @@ void Game::Update() {
         case EndofLevel:
             UpdateEndofLevel();
             return;
+        case GameOver:
+            UpdateGameOver();
+            return;
 
     }
 }
