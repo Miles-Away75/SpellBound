@@ -55,8 +55,8 @@ class Game {
 
         Vector2 playerPos = {0,0};
         Vector2 playerVel = {0,0};
-        std::unordered_map<int, SpellType> bindedSpells = {{KEY_J, Fireball}, {KEY_K, Gaurd}, {KEY_L, Shield}, {KEY_SEMICOLON, Thunder}, {KEY_R, Teleport}};
-        std::unordered_map<int, float> spellTimes = {{KEY_J, -50.0f}, {KEY_K, -50.0f}, {KEY_L, -50.0f}, {KEY_SEMICOLON, -50.0f}, {KEY_R, -50.0f}};
+        std::unordered_map<int, SpellType> bindedSpells = {{KEY_J, Fireball}, {KEY_K, Gaurd}, {KEY_L, Shield}};
+        std::unordered_map<int, float> spellTimes = {{KEY_J, -50.0f}, {KEY_K, -50.0f}, {KEY_L, -50.0f}};
         std::vector<Spell> activeSpells;
         std::vector<SpellType> spellInventory = {};
         std::vector<Enemy> enemies;
@@ -85,7 +85,7 @@ class Game {
         } state = MainMenu;
 
         std::vector<Level> levels = {
-            {{{ "Enemy1", {400, 300}}}, Fireball},
+            {{{ "Enemy1", {400, 300}}}, Teleport},
             {{{"Boss1", {600, 400}}}, Thunder}
         };
 
