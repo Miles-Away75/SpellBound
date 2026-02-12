@@ -1,5 +1,6 @@
 #include "Enemy.h"
 
+const float wallSpacing = 75;
 
 void Enemy::Update(Vector2 playerPos, std::vector<Spell>& activeSpells, SmartTexture& texture) {
     std::cout << (float)health / enemyHealth.at(name) << "\n";
@@ -80,14 +81,14 @@ void Enemy::Update(Vector2 playerPos, std::vector<Spell>& activeSpells, SmartTex
                 doneAttack = true;
                 break;
             case HorizontalFireWall:
-                for (int i = -GetScreenHeight()/50; i <= GetScreenHeight()/50; i++) {
-                    activeSpells.push_back(Spell(Fireball, 0, {0.0f, i * 50.0f}, Opposing));
+                for (int i = -GetScreenHeight()/wallSpacing; i <= GetScreenHeight()/wallSpacing; i++) {
+                    activeSpells.push_back(Spell(Fireball, 0, {0.0f, i * wallSpacing}, Opposing));
                 }
                 doneAttack = true;
                 break;
             case VericalFireWall:
-                for (int i = -GetScreenWidth()/50; i <= GetScreenWidth()/50; i++) {
-                    activeSpells.push_back(Spell(Fireball, 90, {i * 50.0f, 0.0f}, Opposing));
+                for (int i = -GetScreenWidth()/wallSpacing; i <= GetScreenWidth()/wallSpacing; i++) {
+                    activeSpells.push_back(Spell(Fireball, 90, {i * wallSpacing, 0.0f}, Opposing));
                 }
                 doneAttack = true;
                 break;

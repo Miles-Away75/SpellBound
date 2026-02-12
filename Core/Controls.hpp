@@ -2,6 +2,9 @@
 
 // controls are spell bindings
 
+const Rectangle AddNewButton = {400, 500, 100, 50};
+const Rectangle HomeButton = {200, 500, 100, 50};
+
 void Game::UpdateControls() {
     EventsControls();
     BeginDrawing();
@@ -23,7 +26,8 @@ void Game::DrawControls() {
         }
         i++;
     }
-    DrawButton({500, 500, 100, 50}, "Add New");
+    DrawButton(AddNewButton, "Add New");
+    DrawButton(HomeButton, "Home");
     std::string text = "Inventory: ";
     for (const auto& spell : spellInventory) {
         switch (spell) {
@@ -51,7 +55,7 @@ void Game::EventsControls() {
     if (IsKeyPressed(KEY_ESCAPE)) {
         state = Playing;
     }
-    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && CheckCollisionPointRec(GetMousePosition(), {500, 500, 100, 50}) && spellInventory.size() > 0) {
+    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && CheckCollisionPointRec(GetMousePosition(), AddNewButton) && spellInventory.size() > 0) {
         int key = 0;
         while (key == 0) {
             BeginDrawing();
@@ -63,5 +67,8 @@ void Game::EventsControls() {
         spellTimes[key] = 0.0f;
         spellInventory.pop_back();
                       
+    }
+    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && CheckCollisionPointRec(GetMousePosition(), HomeButton)) {
+        state = Playing;
     }
 }

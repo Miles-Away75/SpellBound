@@ -1,6 +1,6 @@
 #include "Game.h"
 
-const Rectangle GameOverButton = {300, 300, 200, 50};
+const Rectangle GameOverButton = {275, 400, 250, 50};
 
 void Game::UpdateGameOver() {
     BeginDrawing();
