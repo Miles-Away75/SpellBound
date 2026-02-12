@@ -17,6 +17,7 @@ void Game::UpdateGame() {
     if (enemies.size() == 0) { 
         state = EndofLevel;
         spellInventory.push_back(levels[level].reward);
+        timeBetweenAttacks *= 0.8f; // increase difficulty by making enemies attack faster
     }
 }
 

@@ -32,7 +32,7 @@ const std::unordered_map<std::string, float> enemySpeeds = {
     {"Boss1", 150}
 };
 
-const float timeBetweenAttacks = 2.0f;
+float timeBetweenAttacks = 2.0f;
 
 class Enemy {
     public:
@@ -59,7 +59,7 @@ class Enemy {
             texture.draw(pos);
             // draw health bar
             DrawRectangleRec({pos.x, pos.y - 10, 48, 5}, GRAY);
-            DrawRectangleRec({pos.x, pos.y - 10, 48.0f * (health / enemyHealth.at(name)), 5}, RED);
+            DrawRectangleRec({pos.x, pos.y - 10, 48.0f * ((float)health / enemyHealth.at(name)), 5}, RED);
         }
         void Update(Vector2 playerPos, std::vector<Spell>& activeSpells, SmartTexture& texture);
 };

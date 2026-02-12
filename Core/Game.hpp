@@ -24,6 +24,9 @@ void Game::loadLevel() {
     activeSpells.clear();
     playerPos = {15, 15};
     playerVel = {0,0};
+    for (auto & pair : spellTimes) {
+        pair.second = -50.0f;
+    }
     enemies.clear();
     for (auto pair : levels[level].enemyPositions) {
         enemies.push_back(Enemy(pair.second, pair.first));
