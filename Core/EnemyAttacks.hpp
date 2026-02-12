@@ -7,8 +7,13 @@ void Enemy::Update(Vector2 playerPos, std::vector<Spell>& activeSpells, SmartTex
     if (GetTime() - timeStartAttack >  timeBetweenAttacks) {
         nextAttack();
         doneAttack = false;
+        if (getAttack() == GoToRandomPosition) {
+            destination = {random(0, GetScreenWidth()), random(0, GetScreenHeight())};
+        }
     }
     Vector2 direction;
+    Rectangle recX;
+    Rectangle recY;
     float angle;
     if (!doneAttack) {
         switch (getAttack()) {
@@ -31,15 +36,15 @@ void Enemy::Update(Vector2 playerPos, std::vector<Spell>& activeSpells, SmartTex
                 // Move towards the player's position
                 direction = Normalize({playerPos.x - pos.x, playerPos.y - pos.y});
                 direction = {direction.x * enemySpeeds.at(name) * GetFrameTime(), direction.y * enemySpeeds.at(name) * GetFrameTime()};
-                
-                if (!CheckCollisionRecs({pos.x + direction.x, pos.y + direction.y, 42, 50}, {0, -1, (float)GetScreenWidth(), 1}) &&
-                    !CheckCollisionRecs({pos.x + direction.x, pos.y + direction.y, 42, 50}, {-1, 0, 1, (float)GetScreenHeight()}) &&
-                    !CheckCollisionRecs({pos.x + direction.x, pos.y + direction.y, 42, 50}, {0, (float)GetScreenHeight() - 1, (float)GetScreenWidth(), 1}) &&
-                    !CheckCollisionRecs({pos.x + direction.x, pos.y + direction.y, 42, 50}, {(float)GetScreenWidth() - 1, 0, 1, (float)GetScreenHeight()})) {
+       
+                recX = {pos.x + direction.x, pos.y, 42, 50};
+                recY = {pos.x, pos.y + direction.y, 42, 50};
+                if (RectInLevel(recX)) {
                     pos.x += direction.x; 
-                    pos.y += direction.y;
                 }
-                
+                if (RectInLevel(recY)) {
+                    pos.y += direction.y;
+                }      
                 break;
             
             case RunFromPlayer: 
@@ -47,11 +52,12 @@ void Enemy::Update(Vector2 playerPos, std::vector<Spell>& activeSpells, SmartTex
                 direction = Normalize({pos.x - playerPos.x, pos.y - playerPos.y});
                 direction = {direction.x * enemySpeeds.at(name) * GetFrameTime(), direction.y * enemySpeeds.at(name) * GetFrameTime()};
                 
-                if (!CheckCollisionRecs({pos.x + direction.x, pos.y + direction.y, 42, 50}, {0, -1, (float)GetScreenWidth(), 1}) &&
-                    !CheckCollisionRecs({pos.x + direction.x, pos.y + direction.y, 42, 50}, {-1, 0, 1, (float)GetScreenHeight()}) &&
-                    !CheckCollisionRecs({pos.x + direction.x, pos.y + direction.y, 42, 50}, {0, (float)GetScreenHeight() - 1, (float)GetScreenWidth(), 1}) &&
-                    !CheckCollisionRecs({pos.x + direction.x, pos.y + direction.y, 42, 50}, {(float)GetScreenWidth() - 1, 0, 1, (float)GetScreenHeight()})) {
+                recX = {pos.x + direction.x, pos.y, 42, 50};
+                recY = {pos.x, pos.y + direction.y, 42, 50};
+                if (RectInLevel(recX)) {
                     pos.x += direction.x; 
+                }
+                if (RectInLevel(recY)) {
                     pos.y += direction.y;
                 }
                 break;
@@ -84,6 +90,21 @@ void Enemy::Update(Vector2 playerPos, std::vector<Spell>& activeSpells, SmartTex
                     activeSpells.push_back(Spell(Fireball, 90, {i * 50.0f, 0.0f}, Opposing));
                 }
                 doneAttack = true;
+                break;
+            case GoToRandomPosition:
+                direction = Normalize({destination.x - pos.x, destination.y - pos.y});
+                direction = {direction.x * enemySpeeds.at(name) * GetFrameTime(), direction.y * enemySpeeds.at(name) * GetFrameTime()};
+                recX = {pos.x + direction.x, pos.y, 42, 50};
+                recY = {pos.x, pos.y + direction.y, 42, 50};
+                if (RectInLevel(recX)) {
+                    pos.x += direction.x; 
+                }
+                if (RectInLevel(recY)) {
+                    pos.y += direction.y;
+                }
+                if (pos.x == destination.x && pos.y == destination.y) {
+                    destination = {random(0, GetScreenWidth()), random(0, GetScreenHeight())};
+                }
                 break;
             
         }

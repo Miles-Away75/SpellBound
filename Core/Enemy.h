@@ -16,11 +16,12 @@ enum AttackType {
     GaurdTowardsPlayer,
     ThunderTowardsPlayer,
     HorizontalFireWall,
-    VericalFireWall
+    VericalFireWall,
+    GoToRandomPosition
 };
 
 const std::unordered_map<std::string, std::vector<AttackType>> enemyAttackPatterns = {
-    {"Enemy1", {FireballTowardsPlayer, MoveTowardsPlayer, ThunderTowardsPlayer, GaurdSpread, RunFromPlayer}},
+    {"Enemy1", {FireballTowardsPlayer, MoveTowardsPlayer, ThunderTowardsPlayer, GoToRandomPosition, GaurdSpread, RunFromPlayer}},
     {"Boss1", {FireballTowardsPlayer, MoveTowardsPlayer, FireSpread, GaurdSpread, HorizontalFireWall, VericalFireWall, RunFromPlayer, ThunderTowardsPlayer}}
 };
 const std::unordered_map<std::string, int> enemyHealth = {
@@ -37,6 +38,7 @@ float timeBetweenAttacks = 2.0f;
 class Enemy {
     public:
         std::vector<AttackType> attackPaterns;
+        Vector2 destination;
         int currentAttack = 0;
         float timeStartAttack = 0.0;
         bool doneAttack = false;

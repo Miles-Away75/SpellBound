@@ -12,6 +12,15 @@ Vector2 Normalize(Vector2 v) {
     }
     return v;
 }
+bool RectInLevel(Rectangle rect) {
+    if (!CheckCollisionRecs(rect, {0, -1, (float)GetScreenWidth(), 1}) &&
+        !CheckCollisionRecs(rect, {-1, 0, 1, (float)GetScreenHeight()}) &&
+        !CheckCollisionRecs(rect, {0, (float)GetScreenHeight() - 1, (float)GetScreenWidth(), 1}) &&
+        !CheckCollisionRecs(rect, {(float)GetScreenWidth() - 1, 0, 1, (float)GetScreenHeight()})) {
+        return true;
+    }
+    return false;
+}
 float random(float a, float b) {
     std::random_device rd; 
     std::mt19937 gen(rd()); 
