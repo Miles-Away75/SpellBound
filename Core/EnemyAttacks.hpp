@@ -3,7 +3,6 @@
 const float wallSpacing = 75;
 
 void Enemy::Update(Vector2 playerPos, std::vector<Spell>& activeSpells, SmartTexture& texture) {
-    std::cout << (float)health / enemyHealth.at(name) << "\n";
     Draw(texture);
     if (GetTime() - timeStartAttack >  timeBetweenAttacks) {
         nextAttack();

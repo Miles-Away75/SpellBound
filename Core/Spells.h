@@ -11,7 +11,6 @@ enum SpellType {
     Gaurd,
     Shield,
     Thunder,
-    Teleport
 };
 enum Mode {
     Peaceful,
@@ -21,7 +20,6 @@ enum MovementType {
     Stationary,
     Line,
     FollowPlayer,
-    NonPhysical
 };
 
 struct SpellInfo {
@@ -37,14 +35,12 @@ const std::unordered_map<SpellType, SpellInfo> spellInfos = {// damage, piercing
     {Gaurd, {0, 0, 1.0f, 200.0f, Line}},
     {Shield, {0, 0, 5.0f, 0.0f, Stationary}},
     {Thunder, {10, 0, 5.0, 400, Line}},
-    {Teleport, {0, 0, 20.0f, 0.0f, NonPhysical}}
 };
 const std::unordered_map<SpellType, Rectangle> spellSprites = { // Type : Sprite
     {Fireball, {0, 0, 48, 48}},
     {Gaurd, {48, 0, 48, 48}},
     {Shield, {0, 48, 48, 48}},
-    {Thunder, {48, 48, 48, 48}},
-    {Teleport, {96, 0, 48, 48}} // can be anything, never drawn
+    {Thunder, {48, 48, 48, 48}}
 };
 const std::unordered_map<std::string, float> angles = {
     {"Up", 270},
@@ -74,7 +70,6 @@ struct Spell {
         return type == Gaurd || type == Shield;
     }
     void Draw(Spritesheet& spritesheet, float dir) {
-        if (info.movementType == NonPhysical) return; // Teleport spell is invisible
         Rectangle spriteRect = spellSprites.at(type);   
         spritesheet.draw(spriteRect, {pos.x, pos.y, 48, 48}, dir);
     }
@@ -85,10 +80,6 @@ struct Spell {
             direction = Normalize(direction);
             pos.x += direction.x * info.speed * GetFrameTime();
             pos.y += direction.y * info.speed * GetFrameTime();
-            return;
-        }
-        if (type == Teleport) {
-            playerPos = {random(0, GetScreenWidth()), random(0, GetScreenHeight())};
             return;
         }
 

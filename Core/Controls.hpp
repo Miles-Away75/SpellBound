@@ -3,6 +3,7 @@
 // controls are spell bindings
 
 const Rectangle AddNewButton = {400, 500, 100, 50};
+const Rectangle AddAbilityButton = {550, 500, 150, 50};
 const Rectangle HomeButton = {200, 500, 100, 50};
 
 void Game::UpdateControls() {
@@ -26,9 +27,29 @@ void Game::DrawControls() {
         }
         i++;
     }
-    DrawButton(AddNewButton, "Add New");
+    for (auto pair : bindedAbilities) {
+        DrawText(TextFormat("%c: ", pair.first), 50, 50 + i * 40, 20, BLACK);
+        switch (pair.second) {
+            case Teleport:
+                DrawText("Teleport", 100, 50.0f + i * 40, 20, BLACK);
+                break;
+            case Dash:
+                DrawText("Dash", 100, 50.0f + i * 40, 20, BLACK);
+                break;
+        }
+        DrawButton({200, 50.0f + i * 40, 100, 30}, "Delete");
+        if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && CheckCollisionPointRec(GetMousePosition(), {200, 50.0f + i * 40, 100, 30})) {
+            abilityInventory.push_back(pair.second);
+            bindedAbilities.erase(pair.first);
+            abilityTimes.erase(pair.first);
+            break;
+        }
+        i++;
+    }
+    DrawButton(AddNewButton, "Add New Spell");
+    DrawButton(AddAbilityButton, "Add New Ability");
     DrawButton(HomeButton, "Home");
-    std::string text = "Inventory: ";
+    std::string text = "Spells: ";
     for (const auto& spell : spellInventory) {
         switch (spell) {
             case Fireball:
@@ -42,14 +63,22 @@ void Game::DrawControls() {
                 break;
             case Thunder:
                 text += "Thunder ";
-                break;
-            case Teleport:
-                text += "Teleport ";
-                break;
-            
+                break;         
         }
     }
     DrawText(text.c_str(), 50, 400, 20, BLACK);
+     text = "Abilities: ";
+    for (const auto& ability : abilityInventory) {
+        switch (ability) {
+            case Teleport:
+                text += "Teleport ";
+                break;
+            case Dash:
+                text += "Dash ";
+                break;        
+        }
+    }
+    DrawText(text.c_str(), 50, 450, 20, BLACK);
 }
 void Game::EventsControls() {
     if (IsKeyPressed(KEY_ESCAPE)) {

@@ -24,8 +24,9 @@ void Game::UpdateGame() {
 
 void Game::DrawCharacter() {
     // Draw the player character
+    std::cout << "Before Player Sprite\n";
     playerSpritesheet.draw(playerSprites.at(playerDirection), {playerPos.x, playerPos.y, 42, 48});
-    
+    std::cout << "After Player Sprite\n";
     DrawRectangleRec({15, 15, 100, 10}, GRAY);
     DrawRectangleRec({15, 15, 100 * ((float)health / 100), 10}, RED);
 }
@@ -39,11 +40,6 @@ void Game::DrawSpells() {
     for (Spell& spell : activeSpells) {
         spell.Draw(spellSpritesheet, spell.dir);
         spell.UpdatePosition(playerPos);
-        if (spell.type == Teleport) {
-            // Teleport spell is instant, remove after applying effect
-            spell = activeSpells.back();
-            activeSpells.pop_back();
-        }
         if (!CheckCollisionRecs(spell.getHitbox(), {0, 0, ScreenWidth, ScreenHeight})) {
             // Remove spell if it goes off-screen
             spell = activeSpells.back();
@@ -54,6 +50,7 @@ void Game::DrawSpells() {
     int i = 0;
     for (auto pair : bindedSpells) {
         float time = GetTime() - spellTimes[pair.first];
+        std::cout << "Before cooldown at\n";
         float cooldown = spellInfos.at(pair.second).cooldown;
         if (time > cooldown) {
             time = cooldown;
@@ -115,9 +112,20 @@ void Game::GetPlayerControls() {
     }
     // take spell inputs
     for (const auto& pair : bindedSpells) {
+        std::cout << "Before Binding at\n";
         if (IsKeyPressed(pair.first) && GetTime() - spellTimes[pair.first] > spellInfos.at(pair.second).cooldown) {
             activeSpells.push_back(Spell(pair.second, playerDirection, playerPos, Peaceful));
             spellTimes[pair.first] = GetTime();
+            break;
+        }
+    }
+    for (const auto& pair : bindedAbilities) {
+        std::cout << "Checking ability " << pair.second << " bound to key " << pair.first << std::endl;
+        abilityCooldowns.at(pair.second); // Check if ability exists
+        std::cout << "Before Ability Binding at\n";
+        if (IsKeyPressed(pair.first) && GetTime() - abilityTimes[pair.first] > abilityCooldowns.at(pair.second)) {
+            UseAbility(pair.second, playerPos, playerVel);
+            abilityTimes[pair.first] = GetTime();
             break;
         }
     }

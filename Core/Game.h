@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Enemy.h"
+#include "Abilities.h"
 #include "SmartMusic.h"
 #include "SmartSound.h"
 #include "Rendering.hpp"
@@ -58,9 +59,12 @@ class Game {
         Vector2 playerPos = {0,0};
         Vector2 playerVel = {0,0};
         std::unordered_map<int, SpellType> bindedSpells = {{KEY_J, Fireball}, {KEY_K, Gaurd}, {KEY_L, Shield}};
+        std::unordered_map<int, AbilityType> bindedAbilities = {{KEY_R, Teleport}, {KEY_F, Dash}};
         std::unordered_map<int, float> spellTimes = {{KEY_J, -50.0f}, {KEY_K, -50.0f}, {KEY_L, -50.0f}};
+        std::unordered_map<int, float> abilityTimes = {{KEY_R, -50.0f}, {KEY_F, -50.0f}};
         std::vector<Spell> activeSpells;
         std::vector<SpellType> spellInventory = {};
+        std::vector<AbilityType> abilityInventory = {};
         std::vector<Enemy> enemies;
         int health = 50;
         float timeHit = 0.0f;
@@ -88,7 +92,7 @@ class Game {
         } state = MainMenu;
 
         std::vector<Level> levels = {
-            {{{ "Enemy1", {400, 300}}}, Teleport},
+            {{{ "Enemy1", {400, 300}}}, Fireball},
             {{{"Boss1", {600, 400}}}, Thunder}
         };
 
