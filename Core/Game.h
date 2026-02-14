@@ -5,6 +5,7 @@
 #include "SmartMusic.h"
 #include "SmartSound.h"
 #include "Rendering.hpp"
+#include "PowerUp.h"
 
 #include <vector>
 #include <iostream>
@@ -14,7 +15,11 @@ const int ScreenHeight = 600;
 
 const int playerFPS = 8;
 
-
+enum UpgradeType {
+    SpellUpgrade,
+    AbilityUpgrade,
+    UPGRADE_COUNT
+};
 
 class Game {
     public:
@@ -35,6 +40,7 @@ class Game {
         void DrawSpells();
         void DrawEnemies();
         void DrawUpgrading();
+        void DrawPowerUps();
 
         void DrawGameOver();
 
@@ -45,10 +51,15 @@ class Game {
         void CollisionsGame();
 
         bool ShouldSpawnEnemy();
+        bool ShouldSpawnHealth();
+        bool ShouldSpawnUpgrade();
+
+        void GetRandomUpgrades();
         
     private:
         Spritesheet spellSpritesheet;
         Spritesheet playerSpritesheet;
+        Spritesheet powerUpSpritesheet;
         SmartTexture enemyTexture;
 
         bool isRunning = true;
@@ -60,15 +71,15 @@ class Game {
         std::unordered_map<int, float> spellTimes = {{KEY_J, -50.0f}, {KEY_K, -50.0f}, {KEY_L, -50.0f}};
         std::unordered_map<int, float> abilityTimes = {{KEY_R, -50.0f}, {KEY_F, -50.0f}};
         std::vector<Spell> activeSpells;
-        std::vector<SpellType> spellInventory = {};
-        std::vector<AbilityType> abilityInventory = {};
         std::vector<Enemy> enemies;
+        std::vector<PowerUp> powerUps;
+        std::vector<UpgradeType> currentUpgrades = {};
         int health = 100;
         int score = 0;
         float timeHit = 0.0f;
 
         float timeSinceLastSpawn = 0.0f;
-        float timeBetweenSpawns = 2.5f;
+        float timeBetweenSpawns = 5.0f;
 
 
         std::unordered_map<float, std::vector<Rectangle>> playerSprites = { // angle : sprite (0 == RIGHT, 90 == DOWN, 180 == LEFT, 270 == UP)

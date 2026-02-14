@@ -22,6 +22,12 @@ void Game::CollisionsGame() {
                     score += enemyScores.at(enemy.name);
                     enemies[i] = enemies.back();
                     enemies.pop_back();
+                    if (ShouldSpawnUpgrade()) {
+                        powerUps.push_back(PowerUp(Upgrade, enemy.pos));
+                    }
+                    else if (ShouldSpawnHealth()) {
+                        powerUps.push_back(PowerUp(Health, enemy.pos));
+                    }
                     
                 }
                 // Remove spell on hit
@@ -51,14 +57,32 @@ void Game::CollisionsGame() {
             }
         }
     }
+    // Player with PowerUps
+    for (int i = 0; i < (int)powerUps.size(); i++) {
+        PowerUp powerUp = powerUps[i];
+        if (CheckCollisionRecs(powerUp.getHitbox(), {playerPos.x, playerPos.y, 42, 48})) {
+            powerUps.erase(powerUps.begin() + i);
+            if (powerUp.type == Health) {
+                health += 20;
+                if (health > 100) health = 100;
+            }
+            if (powerUp.type == Upgrade) {
+                std::cout << "Upgrade Collected\n";
+                state = Upgrading;
+                GetRandomUpgrades();
+                return;
+            }
+        }
+    }
     if (health <= 0) {
         // Game Over logic here
         state = GameOver;
-        health = 50;
+        health = 100;
         timeBetweenAttacks = 2.0f;
-        spellInventory.clear();
         activeSpells.clear();
+        powerUps.clear();
         enemies.clear();
+        playerPos = {15, 15};
         bindedSpells = {{KEY_J, Fireball}, {KEY_K, Gaurd}, {KEY_L, Shield}};
         spellTimes = {{KEY_J, -50.0f}, {KEY_K, -50.0f}, {KEY_L, -50.0f}};
         std::cout << "Game Over\n";

@@ -9,7 +9,7 @@ void Game::UpdateGameOver() {
     EndDrawing();
 
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && CheckCollisionPointRec(GetMousePosition(), GameOverButton)) {
-        state = MainMenu;
+        state = Playing;
     }
 }
 

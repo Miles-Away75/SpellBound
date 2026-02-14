@@ -11,6 +11,7 @@ enum SpellType {
     Gaurd,
     Shield,
     Thunder,
+    SPELL_COUNT
 };
 enum Mode {
     Peaceful,

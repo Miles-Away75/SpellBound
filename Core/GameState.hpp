@@ -1,21 +1,13 @@
 #include "Game.h"
 #include "Math.h"
 
-
-void Game::UpdateGame() {
-    
-    EventsGame();
-        BeginDrawing();
-        ClearBackground(RAYWHITE);
-
-        DrawCharacter();
-        DrawEnemies();
-        DrawSpells();
-    EndDrawing();
-
-    CollisionsGame();
-    if (state != Playing) return;
+void Game::GetRandomUpgrades() {
+    currentUpgrades.clear();
+    for (int i = 0; i < 3; i++) {
+        currentUpgrades.push_back((UpgradeType)random(0, UpgradeType::UPGRADE_COUNT));
+    }
 }
+
 bool Game::ShouldSpawnEnemy() {
     if (GetTime() - timeSinceLastSpawn > timeBetweenSpawns) {
         if (GetRandomValue(0, 100) < 25) { // 25% chance to spawn an enemy every time the timer runs out
@@ -25,6 +17,35 @@ bool Game::ShouldSpawnEnemy() {
         return false;
     }
     return false;
+}
+bool Game::ShouldSpawnHealth() {
+    return GetRandomValue(0, 100) < 10; // 10% chance to spawn a health power-up
+}
+bool Game::ShouldSpawnUpgrade() {
+    return true;//GetRandomValue(0, 100) < 5; // 5% chance to spawn an upgrade power-up
+}
+
+void Game::UpdateGame() {
+    
+    EventsGame();
+        BeginDrawing();
+        ClearBackground(RAYWHITE);
+
+        DrawCharacter();
+        DrawPowerUps();
+        DrawEnemies();
+        DrawSpells();
+        
+    EndDrawing();
+
+    CollisionsGame();
+    if (state != Playing) return;
+}
+
+void Game::DrawPowerUps() {
+    for (PowerUp& powerUp : powerUps) {
+        powerUpSpritesheet.draw(powerUpSprites.at(powerUp.type), powerUp.getHitbox());
+    }
 }
 
 void Game::DrawCharacter() {

@@ -5,7 +5,8 @@
 
 enum AbilityType {
     Teleport,
-    Dash
+    Dash,
+    ABILITY_COUNT
 };
 std::unordered_map<AbilityType, float> abilityCooldowns = {
     {Teleport, 20.0f},

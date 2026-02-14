@@ -1,10 +1,12 @@
 #include "Game.h"
 
-// Upgrading are spell bindings
 
-const Rectangle AddNewButton = {400, 500, 100, 50};
-const Rectangle AddAbilityButton = {550, 500, 150, 50};
-const Rectangle HomeButton = {200, 500, 100, 50};
+
+
+// Upgrading are spell bindings
+Rectangle card1 = {50, 200, 200, 100};
+Rectangle card2 = {300, 200, 200, 100};
+Rectangle card3 = {550, 200, 200, 100};
 
 void Game::UpdateUpgrading() {
     EventsUpgrading();
@@ -14,101 +16,66 @@ void Game::UpdateUpgrading() {
     EndDrawing();
 }
 void Game::DrawUpgrading() {
-    int i = 0;
-    for (auto pair : bindedSpells) {
-        DrawText(TextFormat("%c: ", pair.first), 50, 50 + i * 40, 20, BLACK);
-        spellSpritesheet.draw(spellSprites.at(pair.second), {100, 50.0f + i * 40, 48, 48});
-        DrawButton({200, 50.0f + i * 40, 100, 30}, "Delete");
-        if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && CheckCollisionPointRec(GetMousePosition(), {200, 50.0f + i * 40, 100, 30})) {
-            spellInventory.push_back(pair.second);
-            bindedSpells.erase(pair.first);
-            spellTimes.erase(pair.first);
-            break;
-        }
-        i++;
-    }
-    for (auto pair : bindedAbilities) {
-        DrawText(TextFormat("%c: ", pair.first), 50, 50 + i * 40, 20, BLACK);
-        switch (pair.second) {
-            case Teleport:
-                DrawText("Teleport", 100, 50.0f + i * 40, 20, BLACK);
+    DrawRectangleRec(card1, DARKBLUE);
+    DrawRectangleRec(card2, DARKBLUE);
+    DrawRectangleRec(card3, DARKBLUE);
+    for (int i = 0; i < 3; i++) {
+        UpgradeType upgrade = currentUpgrades[i];
+        Rectangle card = ((std::vector<Rectangle>){card1, card2, card3})[i];
+        switch (upgrade) {
+            case SpellUpgrade:
+                DrawText("Spell Upgrade", card.x + 20, card.y + 40, 20, WHITE);
                 break;
-            case Dash:
-                DrawText("Dash", 100, 50.0f + i * 40, 20, BLACK);
+            case AbilityUpgrade:
+                DrawText("Ability Upgrade", card.x + 20, card.y + 40, 20, WHITE);
                 break;
-        }
-        DrawButton({200, 50.0f + i * 40, 100, 30}, "Delete");
-        if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && CheckCollisionPointRec(GetMousePosition(), {200, 50.0f + i * 40, 100, 30})) {
-            abilityInventory.push_back(pair.second);
-            bindedAbilities.erase(pair.first);
-            abilityTimes.erase(pair.first);
-            break;
-        }
-        i++;
-    }
-    DrawButton(AddNewButton, "Add New Spell");
-    DrawButton(AddAbilityButton, "Add New Ability");
-    DrawButton(HomeButton, "Home");
-    std::string text = "Spells: ";
-    for (const auto& spell : spellInventory) {
-        switch (spell) {
-            case Fireball:
-                text += "Fireball ";
-                break;
-            case Gaurd:
-                text += "Gaurd ";
-                break;
-            case Shield:
-                text += "Shield ";
-                break;
-            case Thunder:
-                text += "Thunder ";
-                break;         
         }
     }
-    DrawText(text.c_str(), 50, 400, 20, BLACK);
-     text = "Abilities: ";
-    for (const auto& ability : abilityInventory) {
-        switch (ability) {
-            case Teleport:
-                text += "Teleport ";
-                break;
-            case Dash:
-                text += "Dash ";
-                break;        
-        }
-    }
-    DrawText(text.c_str(), 50, 450, 20, BLACK);
 }
 void Game::EventsUpgrading() {
-    if (IsKeyPressed(KEY_ESCAPE)) {
-        state = Playing;
-    }
-    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && CheckCollisionPointRec(GetMousePosition(), AddNewButton) && spellInventory.size() > 0) {
-        int key = 0;
-        while (key == 0) {
-            BeginDrawing();
-            DrawText("Press a key to bind the spell to...", 300, 300, 20, BLACK);
-            EndDrawing();
-            key = GetKeyPressed();
+    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+        Vector2 mousePos = GetMousePosition();
+        for (int i = 0; i < 3; i++) {
+            Rectangle card = ((std::vector<Rectangle>){card1, card2, card3})[i];
+            if (CheckCollisionPointRec(mousePos, card)) {
+                UpgradeType upgrade = currentUpgrades[i];
+                int key;
+                SpellType newSpell;
+                AbilityType newAbility;
+                switch (upgrade) {
+                    case SpellUpgrade:
+                        // Add a random spell to the inventory
+                        key = 0;
+                        newSpell = (SpellType)random(0, SpellType::SPELL_COUNT);
+                        while (!key) {
+                            BeginDrawing();
+                            ClearBackground(RED);
+                            DrawText("Press a key to bind the new spell to", 150, 200, 20, WHITE);
+                            spellSpritesheet.draw(spellSprites.at(newSpell), {150, 250, 48, 48});
+                            EndDrawing();
+                            key = GetKeyPressed();
+                        }
+                        bindedSpells[key] = newSpell;
+                        break;
+                    case AbilityUpgrade:
+                        // Add a random ability to the inventory
+                        key = 0;
+                        newAbility = (AbilityType)random(0, AbilityType::ABILITY_COUNT);
+                        while (!key) {
+                            BeginDrawing();
+                            ClearBackground(RED);
+                            DrawText("Press a key to bind the new ability to", 150, 200, 20, WHITE);
+                            // Assuming you have a way to draw ability icons similar to spells
+                            DrawText((newAbility == Teleport) ? "Teleport" : "Dash", 150, 250, 20, WHITE);
+                            EndDrawing();
+                            key = GetKeyPressed();
+                        }
+                        bindedAbilities[key] = newAbility;
+                        break;
+                }
+                state = Playing;
+                return;
+            }
         }
-        bindedSpells[key] = spellInventory.back();
-        spellTimes[key] = 0.0f;
-        spellInventory.pop_back();                     
     }
-    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && CheckCollisionPointRec(GetMousePosition(), AddAbilityButton) && abilityInventory.size() > 0) {
-        int key = 0;
-        while (key == 0) {
-            BeginDrawing();
-            DrawText("Press a key to bind the ability to...", 300, 300, 20, BLACK);
-            EndDrawing();
-            key = GetKeyPressed();
-        }
-        bindedAbilities[key] = abilityInventory.back();
-        abilityTimes[key] = 0.0f;
-        abilityInventory.pop_back();
-    }
-    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && CheckCollisionPointRec(GetMousePosition(), HomeButton)) {
-        state = Playing;
-    } 
 }
