@@ -14,26 +14,14 @@ Game::Game() {
 
     loadAssets();
 
-    loadLevel();
+    enemies.push_back(Enemy({100, 100}, "Enemy1"));
+
 }
 Game::~Game() {
 
     CloseWindow();
 }
-void Game::loadLevel() {
-    activeSpells.clear();
-    playerPos = {15, 15};
-    playerVel = {0,0};
-    for (auto & pair : spellTimes) {
-        pair.second = -50.0f;
-    }
-    enemies.clear();
-    for (auto pair : levels[level].enemyPositions) {
-        enemies.push_back(Enemy(pair.second, pair.first));
-    }
-    health = 100;
-    std::cout << "Loading Level\n";
-}
+
 
 void Game::loadAssets() {
     // Load textures, sounds, etc.
@@ -54,11 +42,8 @@ void Game::Update() {
         case Playing:
             UpdateGame();
             return;
-        case Controls:
-            UpdateControls();
-            return;
-        case EndofLevel:
-            UpdateEndofLevel();
+        case Upgrading:
+            UpdateUpgrading();
             return;
         case GameOver:
             UpdateGameOver();

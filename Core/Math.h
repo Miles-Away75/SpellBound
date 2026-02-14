@@ -12,6 +12,11 @@ Vector2 Normalize(Vector2 v) {
     }
     return v;
 }
+float Distance(Vector2 a, Vector2 b) {
+    float dx = b.x - a.x;
+    float dy = b.y - a.y;
+    return std::sqrt(dx * dx + dy * dy);
+}
 bool RectInLevel(Rectangle rect) {
     if (!CheckCollisionRecs(rect, {0, -1, (float)GetScreenWidth(), 1}) &&
         !CheckCollisionRecs(rect, {-1, 0, 1, (float)GetScreenHeight()}) &&

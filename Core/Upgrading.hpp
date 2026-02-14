@@ -1,19 +1,19 @@
 #include "Game.h"
 
-// controls are spell bindings
+// Upgrading are spell bindings
 
 const Rectangle AddNewButton = {400, 500, 100, 50};
 const Rectangle AddAbilityButton = {550, 500, 150, 50};
 const Rectangle HomeButton = {200, 500, 100, 50};
 
-void Game::UpdateControls() {
-    EventsControls();
+void Game::UpdateUpgrading() {
+    EventsUpgrading();
     BeginDrawing();
     ClearBackground(RAYWHITE);
-    DrawControls();
+    DrawUpgrading();
     EndDrawing();
 }
-void Game::DrawControls() {
+void Game::DrawUpgrading() {
     int i = 0;
     for (auto pair : bindedSpells) {
         DrawText(TextFormat("%c: ", pair.first), 50, 50 + i * 40, 20, BLACK);
@@ -80,7 +80,7 @@ void Game::DrawControls() {
     }
     DrawText(text.c_str(), 50, 450, 20, BLACK);
 }
-void Game::EventsControls() {
+void Game::EventsUpgrading() {
     if (IsKeyPressed(KEY_ESCAPE)) {
         state = Playing;
     }

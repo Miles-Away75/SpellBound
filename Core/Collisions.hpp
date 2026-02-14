@@ -19,8 +19,10 @@ void Game::CollisionsGame() {
             if (spell.mode == Peaceful && spell.type != Gaurd && CheckCollisionRecs(spell.getHitbox(), {enemy.pos.x, enemy.pos.y, 42, 50})) {
                 enemies[i].health -= spell.info.damage;
                 if (enemies[i].health <= 0) {
+                    score += enemyScores.at(enemy.name);
                     enemies[i] = enemies.back();
                     enemies.pop_back();
+                    
                 }
                 // Remove spell on hit
                 spell = activeSpells.back();
@@ -59,9 +61,7 @@ void Game::CollisionsGame() {
         enemies.clear();
         bindedSpells = {{KEY_J, Fireball}, {KEY_K, Gaurd}, {KEY_L, Shield}};
         spellTimes = {{KEY_J, -50.0f}, {KEY_K, -50.0f}, {KEY_L, -50.0f}};
-        level = 0;
         std::cout << "Game Over\n";
-
     }
 
 }

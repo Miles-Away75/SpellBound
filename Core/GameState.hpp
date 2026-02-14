@@ -15,11 +15,16 @@ void Game::UpdateGame() {
 
     CollisionsGame();
     if (state != Playing) return;
-    if (enemies.size() == 0) { 
-        state = EndofLevel;
-        spellInventory.push_back(levels[level].reward);
-        timeBetweenAttacks *= 0.8f; // increase difficulty by making enemies attack faster
+}
+bool Game::ShouldSpawnEnemy() {
+    if (GetTime() - timeSinceLastSpawn > timeBetweenSpawns) {
+        if (GetRandomValue(0, 100) < 25) { // 25% chance to spawn an enemy every time the timer runs out
+            timeSinceLastSpawn = GetTime();
+            return true;
+        }
+        return false;
     }
+    return false;
 }
 
 void Game::DrawCharacter() {
@@ -40,11 +45,21 @@ void Game::DrawCharacter() {
 
     DrawRectangleRec({15, 15, 100, 10}, GRAY);
     DrawRectangleRec({15, 15, 100 * ((float)health / 100), 10}, RED);
+
+    // Draw score
+    DrawText(TextFormat("Score: %d", score), GetScreenWidth() - 150, 10, 20, BLACK);
 }
 void Game::DrawEnemies() {
     // Draw enemies
     for (Enemy &enemy : enemies) {
         enemy.Update(playerPos, activeSpells, enemyTexture);
+    }
+    if (ShouldSpawnEnemy()) {
+        Vector2 spawnPos = {random(0, GetScreenWidth()), random(0, GetScreenHeight())};
+        while (Distance(spawnPos, playerPos) < 100) { // Ensure enemies don't spawn too close to the player
+            spawnPos = {random(0, GetScreenWidth()), random(0, GetScreenHeight())};
+        }
+        enemies.push_back(Enemy(spawnPos, "Enemy1"));
     }
 }
 void Game::DrawSpells() {
@@ -83,11 +98,7 @@ void Game::DrawSpells() {
         i++;
     }
 }
-void Game::GetPlayerControls() {
-    if (IsKeyPressed(KEY_ESCAPE)) {
-        state = Controls;
-        return;
-    }
+void Game::GetPlayerUpgrading() {
     if (IsKeyDown(KEY_W) && IsKeyUp(KEY_S) && IsKeyUp(KEY_A) && IsKeyUp(KEY_D)) {
         playerVel.y -= 0.5;
         playerDirection = 270;
@@ -153,7 +164,7 @@ void Game::GetPlayerControls() {
     }
 }
 void Game::EventsGame() {
-    GetPlayerControls();
+    GetPlayerUpgrading();
     playerPos.x += playerVel.x;
     playerPos.y += playerVel.y;
     playerVel.x *= 0.8f; // Friction

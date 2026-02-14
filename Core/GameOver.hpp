@@ -14,7 +14,7 @@ void Game::UpdateGameOver() {
 }
 
 void Game::DrawGameOver() {
-    std::string text = "Game Over! You reached level " + std::to_string(level + 1);
+    std::string text = "Game Over! You reached level " ;
     DrawText("Game Over", 300, 200, 40, BLACK);
     DrawButton(GameOverButton, "Return to Main Menu");
 }

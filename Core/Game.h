@@ -14,10 +14,7 @@ const int ScreenHeight = 600;
 
 const int playerFPS = 8;
 
-struct Level {
-    std::unordered_map<std::string, Vector2> enemyPositions;
-    SpellType reward;
-};
+
 
 class Game {
     public:
@@ -25,30 +22,29 @@ class Game {
         ~Game();
 
         void loadAssets();
-        void loadLevel();
         
         void Run();
 
         void Update();
         void UpdateMainMenu();
         void UpdateGame();
-        void UpdateControls();
-        void UpdateEndofLevel();
+        void UpdateUpgrading();
         void UpdateGameOver();
 
         void DrawCharacter();
         void DrawSpells();
         void DrawEnemies();
-        void DrawControls();
-        void DrawEndofLevel();
+        void DrawUpgrading();
+
         void DrawGameOver();
 
         void EventsGame();
-        void GetPlayerControls();
-        void EventsControls();
-        void EventsEndofLevel();
+        void GetPlayerUpgrading();
+        void EventsUpgrading();
 
         void CollisionsGame();
+
+        bool ShouldSpawnEnemy();
         
     private:
         Spritesheet spellSpritesheet;
@@ -56,7 +52,6 @@ class Game {
         SmartTexture enemyTexture;
 
         bool isRunning = true;
-        int level = 0;
 
         Vector2 playerPos = {0,0};
         Vector2 playerVel = {0,0};
@@ -68,8 +63,12 @@ class Game {
         std::vector<SpellType> spellInventory = {};
         std::vector<AbilityType> abilityInventory = {};
         std::vector<Enemy> enemies;
-        int health = 50;
+        int health = 100;
+        int score = 0;
         float timeHit = 0.0f;
+
+        float timeSinceLastSpawn = 0.0f;
+        float timeBetweenSpawns = 2.5f;
 
 
         std::unordered_map<float, std::vector<Rectangle>> playerSprites = { // angle : sprite (0 == RIGHT, 90 == DOWN, 180 == LEFT, 270 == UP)
@@ -89,16 +88,11 @@ class Game {
         enum GameState {
             MainMenu,
             Playing,
-            Controls,
-            EndofLevel,
+            Upgrading,
             GameOver
 
         } state = MainMenu;
 
-        std::vector<Level> levels = {
-            {{{ "Enemy1", {400, 300}}}, Fireball},
-            {{{"Boss1", {600, 400}}}, Thunder}
-        };
 
 
 
@@ -107,9 +101,8 @@ class Game {
 #include "Game.hpp"
 #include "MainMenu.hpp"
 #include "GameState.hpp"
-#include "Controls.hpp"
+#include "Upgrading.hpp"
 #include "Collisions.hpp"
-#include "EndofLevel.hpp"
 #include "GameOver.hpp"
 
 

@@ -25,12 +25,16 @@ const std::unordered_map<std::string, std::vector<AttackType>> enemyAttackPatter
     {"Boss1", {FireballTowardsPlayer, MoveTowardsPlayer, FireSpread, GaurdSpread, HorizontalFireWall, VericalFireWall, RunFromPlayer, ThunderTowardsPlayer}}
 };
 const std::unordered_map<std::string, int> enemyHealth = {
-    {"Enemy1", 30},
-    {"Boss1", 100}
+    {"Enemy1", 15},
+    {"Boss1", 50}
 };
 const std::unordered_map<std::string, float> enemySpeeds = {
     {"Enemy1", 100},
     {"Boss1", 150}
+};
+const std::unordered_map<std::string, int> enemyScores = {
+    {"Enemy1", 10},
+    {"Boss1", 50}
 };
 
 float timeBetweenAttacks = 2.0f;
