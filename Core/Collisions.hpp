@@ -17,16 +17,14 @@ void Game::CollisionsGame() {
         for (int i = 0; i < (int)enemies.size(); i++) {
             Enemy enemy = enemies[i];
             if (spell.mode == Peaceful && spell.type != Gaurd && CheckCollisionRecs(spell.getHitbox(), {enemy.pos.x, enemy.pos.y, 42, 50})) {
-                enemies[i].health -= spell.info.damage;
+                enemies[i].health -= spell.info.damage * damageMultiplier;
                 if (enemies[i].health <= 0) {
                     score += enemyScores.at(enemy.name);
                     enemies[i] = enemies.back();
                     enemies.pop_back();
-                    if (ShouldSpawnUpgrade()) {
-                        powerUps.push_back(PowerUp(Upgrade, enemy.pos));
-                    }
-                    else if (ShouldSpawnHealth()) {
-                        powerUps.push_back(PowerUp(Health, enemy.pos));
+                    PowerUpType powerUpType = GetRandomPowerUp();
+                    if (powerUpType != None) {
+                        powerUps.push_back(PowerUp(powerUpType, enemy.pos));
                     }
                     
                 }
@@ -64,7 +62,7 @@ void Game::CollisionsGame() {
             powerUps.erase(powerUps.begin() + i);
             if (powerUp.type == Health) {
                 health += 20;
-                if (health > 100) health = 100;
+                if (health > maxHealth) health = maxHealth;
             }
             if (powerUp.type == Upgrade) {
                 std::cout << "Upgrade Collected\n";
@@ -72,12 +70,20 @@ void Game::CollisionsGame() {
                 GetRandomUpgrades();
                 return;
             }
+            if (powerUp.type == DamageUp) {
+                damageMultiplier += 0.25f;
+            }
+            if (powerUp.type == SpeedUp) {
+                playerAcceleration += 3.0 * std::pow(2, -timesIncreasedSpeed);
+                timesIncreasedSpeed++;
+            }
         }
     }
     if (health <= 0) {
         // Game Over logic here
         state = GameOver;
-        health = 100;
+        maxHealth = 100;
+        health = maxHealth;
         timeBetweenAttacks = 2.0f;
         activeSpells.clear();
         powerUps.clear();

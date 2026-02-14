@@ -29,6 +29,10 @@ void Game::DrawUpgrading() {
             case AbilityUpgrade:
                 DrawText("Ability Upgrade", card.x + 20, card.y + 40, 20, WHITE);
                 break;
+            case UpMaxHealth:
+                DrawText("Increase Max Health", card.x + 20, card.y + 40, 20, WHITE);
+                break;
+            
         }
     }
 }
@@ -71,6 +75,9 @@ void Game::EventsUpgrading() {
                             key = GetKeyPressed();
                         }
                         bindedAbilities[key] = newAbility;
+                        break;
+                    case UpMaxHealth:
+                        maxHealth += 20;
                         break;
                 }
                 state = Playing;

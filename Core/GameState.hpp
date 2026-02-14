@@ -18,11 +18,21 @@ bool Game::ShouldSpawnEnemy() {
     }
     return false;
 }
-bool Game::ShouldSpawnHealth() {
-    return GetRandomValue(0, 100) < 10; // 10% chance to spawn a health power-up
-}
-bool Game::ShouldSpawnUpgrade() {
-    return true;//GetRandomValue(0, 100) < 5; // 5% chance to spawn an upgrade power-up
+PowerUpType Game::GetRandomPowerUp() {
+    int r = GetRandomValue(0, 100);
+    if (r < 10) {
+        return Health;
+    }
+    if (r < 20) {
+        return DamageUp;
+    }
+    if (r < 30) {
+        return SpeedUp;
+    }
+    if (r < 35) {
+        return Upgrade;
+    }
+    return None;
 }
 
 void Game::UpdateGame() {
@@ -121,44 +131,44 @@ void Game::DrawSpells() {
 }
 void Game::GetPlayerUpgrading() {
     if (IsKeyDown(KEY_W) && IsKeyUp(KEY_S) && IsKeyUp(KEY_A) && IsKeyUp(KEY_D)) {
-        playerVel.y -= 0.5;
+        playerVel.y -= playerAcceleration;
         playerDirection = 270;
     } 
     else if (IsKeyDown(KEY_S) && IsKeyUp(KEY_W) && IsKeyUp(KEY_A) && IsKeyUp(KEY_D)) {
-        playerVel.y += 0.5;
+        playerVel.y += playerAcceleration;
         playerDirection = 90;
     } 
     else if (IsKeyDown(KEY_A) && IsKeyUp(KEY_W) && IsKeyUp(KEY_S) && IsKeyUp(KEY_D)) {
-        playerVel.x -= 0.5;
+        playerVel.x -= playerAcceleration;
         playerDirection = 180;
     } 
     else if (IsKeyDown(KEY_D) && IsKeyUp(KEY_W) && IsKeyUp(KEY_S) && IsKeyUp(KEY_A)) {
-        playerVel.x += 0.5;
+        playerVel.x += playerAcceleration;
         playerDirection = 0;
     } 
     else if (IsKeyDown(KEY_W) && IsKeyDown(KEY_A) && IsKeyUp(KEY_S) && IsKeyUp(KEY_D)) {
-        Vector2 scheduled = {-0.5f, -0.5f};
+        Vector2 scheduled = {-playerAcceleration, -playerAcceleration};
         Normalize(scheduled);
         playerVel.x += scheduled.x/2;
         playerVel.y += scheduled.y/2;
         playerDirection = 225;
     }
     else if (IsKeyDown(KEY_W) && IsKeyDown(KEY_D) && IsKeyUp(KEY_S) && IsKeyUp(KEY_A)) {
-        Vector2 scheduled = {0.5f, -0.5f};
+        Vector2 scheduled = {playerAcceleration, -playerAcceleration};
         Normalize(scheduled);
         playerVel.x += scheduled.x/2;
         playerVel.y += scheduled.y/2;
         playerDirection = 315;
     } 
     else if (IsKeyDown(KEY_S) && IsKeyDown(KEY_A) && IsKeyUp(KEY_W) && IsKeyUp(KEY_D)) {
-        Vector2 scheduled = {-0.5f, 0.5f};
+        Vector2 scheduled = {-playerAcceleration, playerAcceleration};
         Normalize(scheduled);
         playerVel.x += scheduled.x/2;
         playerVel.y += scheduled.y/2;
         playerDirection = 135;
     } 
     else if (IsKeyDown(KEY_S) && IsKeyDown(KEY_D) && IsKeyUp(KEY_W) && IsKeyUp(KEY_A)) {
-        Vector2 scheduled = {0.5f, 0.5f};
+        Vector2 scheduled = {playerAcceleration, playerAcceleration};
         Normalize(scheduled);
         playerVel.x += scheduled.x/2;
         playerVel.y += scheduled.y/2;

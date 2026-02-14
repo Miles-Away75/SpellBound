@@ -5,12 +5,17 @@
 
 enum PowerUpType {
     Health,
-    Upgrade
+    Upgrade,
+    DamageUp,
+    SpeedUp,
+    None
 };
 
 std::unordered_map<PowerUpType, Rectangle> powerUpSprites = {
     {Upgrade, {0, 0, 48, 42}},
-    {Health, {0, 42, 48, 42}}
+    {Health, {48, 0, 48, 42}},
+    {DamageUp, {0, 42, 48, 42}},
+    {SpeedUp, {48, 42, 48, 42}}
 };
 
 class PowerUp {

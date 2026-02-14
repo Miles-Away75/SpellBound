@@ -15,9 +15,16 @@ const int ScreenHeight = 600;
 
 const int playerFPS = 8;
 
+float playerAcceleration = 0.5;
+
+float damageMultiplier = 1.0f;
+
+int maxHealth = 100;
+
 enum UpgradeType {
     SpellUpgrade,
     AbilityUpgrade,
+    UpMaxHealth,
     UPGRADE_COUNT
 };
 
@@ -51,8 +58,7 @@ class Game {
         void CollisionsGame();
 
         bool ShouldSpawnEnemy();
-        bool ShouldSpawnHealth();
-        bool ShouldSpawnUpgrade();
+        PowerUpType GetRandomPowerUp();
 
         void GetRandomUpgrades();
         
@@ -74,8 +80,9 @@ class Game {
         std::vector<Enemy> enemies;
         std::vector<PowerUp> powerUps;
         std::vector<UpgradeType> currentUpgrades = {};
-        int health = 100;
+        int health = maxHealth;
         int score = 0;
+        int timesIncreasedSpeed = 0;
         float timeHit = 0.0f;
 
         float timeSinceLastSpawn = 0.0f;
