@@ -24,9 +24,8 @@ void Game::UpdateGame() {
 
 void Game::DrawCharacter() {
     // Draw the player character
-    std::cout << "Before Player Sprite\n";
     playerSpritesheet.draw(playerSprites.at(playerDirection), {playerPos.x, playerPos.y, 42, 48});
-    std::cout << "After Player Sprite\n";
+
     DrawRectangleRec({15, 15, 100, 10}, GRAY);
     DrawRectangleRec({15, 15, 100 * ((float)health / 100), 10}, RED);
 }
@@ -52,6 +51,18 @@ void Game::DrawSpells() {
         float time = GetTime() - spellTimes[pair.first];
         std::cout << "Before cooldown at\n";
         float cooldown = spellInfos.at(pair.second).cooldown;
+        if (time > cooldown) {
+            time = cooldown;
+        }
+        DrawText(TextFormat("%c", pair.first),10, 50.0f + i * 20, 20, BLACK);
+        DrawRectangleRec({25, 50.0f + i * 20, 40, 10}, GRAY);
+        DrawRectangleRec({25, 50.0f + i * 20, 40 * (time / cooldown), 10}, (time >= cooldown) ? GREEN : RED);
+        i++;
+    }
+    // Draw ability cooldowns
+    for (auto pair : bindedAbilities) {
+        float time = GetTime() - abilityTimes[pair.first];
+        float cooldown = abilityCooldowns.at(pair.second);
         if (time > cooldown) {
             time = cooldown;
         }
@@ -112,7 +123,7 @@ void Game::GetPlayerControls() {
     }
     // take spell inputs
     for (const auto& pair : bindedSpells) {
-        std::cout << "Before Binding at\n";
+
         if (IsKeyPressed(pair.first) && GetTime() - spellTimes[pair.first] > spellInfos.at(pair.second).cooldown) {
             activeSpells.push_back(Spell(pair.second, playerDirection, playerPos, Peaceful));
             spellTimes[pair.first] = GetTime();
@@ -120,9 +131,9 @@ void Game::GetPlayerControls() {
         }
     }
     for (const auto& pair : bindedAbilities) {
-        std::cout << "Checking ability " << pair.second << " bound to key " << pair.first << std::endl;
+
         abilityCooldowns.at(pair.second); // Check if ability exists
-        std::cout << "Before Ability Binding at\n";
+
         if (IsKeyPressed(pair.first) && GetTime() - abilityTimes[pair.first] > abilityCooldowns.at(pair.second)) {
             UseAbility(pair.second, playerPos, playerVel);
             abilityTimes[pair.first] = GetTime();

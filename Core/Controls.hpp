@@ -94,9 +94,19 @@ void Game::EventsControls() {
         }
         bindedSpells[key] = spellInventory.back();
         spellTimes[key] = 0.0f;
-        spellInventory.pop_back();
-                      
+        spellInventory.pop_back();                     
     }
+    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && CheckCollisionPointRec(GetMousePosition(), AddAbilityButton) && abilityInventory.size() > 0) {
+        int key = 0;
+        while (key == 0) {
+            BeginDrawing();
+            DrawText("Press a key to bind the ability to...", 300, 300, 20, BLACK);
+            EndDrawing();
+            key = GetKeyPressed();
+        }
+        bindedAbilities[key] = abilityInventory.back();
+        abilityTimes[key] = 0.0f;
+        abilityInventory.pop_back();
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && CheckCollisionPointRec(GetMousePosition(), HomeButton)) {
         state = Playing;
     }

@@ -21,7 +21,6 @@ void Enemy::Update(Vector2 playerPos, std::vector<Spell>& activeSpells, SmartTex
                 for (float dir : {0, 45, 90, 135, 180, 225, 270, 315}) {
                     activeSpells.push_back(Spell(Fireball, dir, pos, Opposing)); 
                 }
-                std::cout << "Enemy Attacking with Fire Spread!" << std::endl;
                 doneAttack = true;
                 break;
             

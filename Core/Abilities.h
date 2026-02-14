@@ -18,7 +18,7 @@ void UseAbility(AbilityType ability, Vector2 & playerPos, Vector2 & playerVel) {
             playerPos = {random(0, GetScreenWidth()), random(0, GetScreenHeight())};
             break;
         case Dash:
-            playerPos = {playerPos.x + playerVel.x * 20, playerPos.y + playerVel.y * 20};
+            playerPos = {playerPos.x + playerVel.x * 40, playerPos.y + playerVel.y * 40};
             break;
     }
 }
