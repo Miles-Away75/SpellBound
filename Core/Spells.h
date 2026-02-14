@@ -61,7 +61,7 @@ struct Spell {
     Vector2 pos;
     float dir;
     Mode mode;
-    Spell(SpellType type, float n_dir, Vector2 n_pos, Mode n_mode, MovementType movement = Line) : type(type), info(spellInfos.at(type)), dir(n_dir), pos(n_pos), mode(n_mode) {
+    Spell(SpellType type, float n_dir, Vector2 n_pos, Mode n_mode, MovementType movement = Line) : type(type), info(spellInfos.at(type)),  pos(n_pos),dir(n_dir), mode(n_mode) {
         if (movement != spellInfos.at(type).movementType) {
             info.movementType = movement;
         }
@@ -84,7 +84,7 @@ struct Spell {
             return;
         }
 
-        Vector2 vel = {std::cos(dir * (3.14/180)) * info.speed, std::sin(dir * (3.14/180)) * info.speed};
+        Vector2 vel = {(float)std::cos(dir * (3.14/180)) * info.speed, (float)std::sin(dir * (3.14/180)) * info.speed};
         pos.x += vel.x * GetFrameTime();
         pos.y += vel.y * GetFrameTime();
     }

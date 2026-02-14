@@ -21,5 +21,7 @@ void UseAbility(AbilityType ability, Vector2 & playerPos, Vector2 & playerVel) {
         case Dash:
             playerPos = {playerPos.x + playerVel.x * 40, playerPos.y + playerVel.y * 40};
             break;
+        default:
+            break;
     }
 }

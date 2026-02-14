@@ -4,23 +4,23 @@
 
 void Game::GetPlayerControls() {
     if (IsKeyDown(KEY_W) && IsKeyDown(KEY_A)) {
-        playerVel.x += Normalize({-playerAcceleration, -playerAcceleration}).x/2;
-        playerVel.y += Normalize({-playerAcceleration, -playerAcceleration}).y/2;
+        playerVel.x += Normalize({-playerAcceleration, -playerAcceleration}).x * playerAcceleration;
+        playerVel.y += Normalize({-playerAcceleration, -playerAcceleration}).y * playerAcceleration;
         playerDirection = 225;
     }
     else if (IsKeyDown(KEY_W) && IsKeyDown(KEY_D)) {
-        playerVel.x += Normalize({playerAcceleration, -playerAcceleration}).x/2;
-        playerVel.y += Normalize({playerAcceleration, -playerAcceleration}).y/2;
+        playerVel.x += Normalize({playerAcceleration, -playerAcceleration}).x * playerAcceleration;
+        playerVel.y += Normalize({playerAcceleration, -playerAcceleration}).y * playerAcceleration;
         playerDirection = 315;
     }
     else if (IsKeyDown(KEY_S) && IsKeyDown(KEY_A)) {
-        playerVel.x += Normalize({-playerAcceleration, playerAcceleration}).x/2;
-        playerVel.y += Normalize({-playerAcceleration, playerAcceleration}).y/2;
+        playerVel.x += Normalize({-playerAcceleration, playerAcceleration}).x * playerAcceleration;
+        playerVel.y += Normalize({-playerAcceleration, playerAcceleration}).y * playerAcceleration;
         playerDirection = 135;
     }
     else if (IsKeyDown(KEY_S) && IsKeyDown(KEY_D)) {
-        playerVel.x += Normalize({playerAcceleration, playerAcceleration}).x/2;
-        playerVel.y += Normalize({playerAcceleration, playerAcceleration}).y/2;
+        playerVel.x += Normalize({playerAcceleration, playerAcceleration}).x * playerAcceleration;
+        playerVel.y += Normalize({playerAcceleration, playerAcceleration}).y * playerAcceleration;
         playerDirection = 45;
     }
     else if (IsKeyDown(KEY_W)) {

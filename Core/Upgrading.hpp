@@ -42,6 +42,8 @@ void Game::DrawUpgrading() {
             case UpMaxHealth:
                 DrawText("More Max Health", card.x + 20, card.y + 40, 20, WHITE);
                 break;
+            default:
+                break;
             
         }
     }
@@ -88,6 +90,8 @@ void Game::EventsUpgrading() {
                         break;
                     case UpMaxHealth:
                         maxHealth += 20;
+                        break;
+                    default:
                         break;
                 }
                 state = Playing;
