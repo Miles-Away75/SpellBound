@@ -1,5 +1,6 @@
 #include "raylib.h"
 #include "Spells.h"
+#include "HealthBar.h"
 #include <vector>
 #include <cmath>
 #include <iostream>
@@ -41,6 +42,7 @@ float timeBetweenAttacks = 2.0f;
 
 class Enemy {
     public:
+        HealthBar healthBar = HealthBar(health);
         std::vector<AttackType> attackPaterns;
         Vector2 destination;
         int currentAttack = 0;
@@ -52,6 +54,7 @@ class Enemy {
         Enemy(Vector2 n_pos, std::string n_name) : pos(n_pos), name(n_name) {
             attackPaterns = enemyAttackPatterns.at(name);
             health = enemyHealth.at(name);
+            healthBar = HealthBar(health);
         }
 
         AttackType getAttack() {
@@ -64,8 +67,9 @@ class Enemy {
         void Draw(SmartTexture& texture) {
             texture.draw(pos);
             // draw health bar
-            DrawRectangleRec({pos.x, pos.y - 10, 48, 5}, GRAY);
-            DrawRectangleRec({pos.x, pos.y - 10, 48.0f * ((float)health / enemyHealth.at(name)), 5}, RED);
+            healthBar.Draw({pos.x, pos.y - 10, 42, 5}, 1);
+            healthBar.HandleHealthChange(health);
+            healthBar.Update();
         }
         void Update(Vector2 playerPos, std::vector<Spell>& activeSpells, SmartTexture& texture);
 };

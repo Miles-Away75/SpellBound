@@ -3,14 +3,14 @@
 
 void Game::CollisionsGame() {
     // Spell Collisions with Enemy and Player
-    for (Spell spell : activeSpells) {
+    for (int i = 0; i < (int)activeSpells.size(); i++) {
+        Spell spell = activeSpells[i];
         // Player
         if (spell.mode == Opposing && spell.type != Gaurd && CheckCollisionRecs(spell.getHitbox(), {playerPos.x, playerPos.y, 42, 48})) {
             health -= spell.info.damage;
             timeHit = GetTime();
             // remove spell on hit
-            spell = activeSpells.back();
-            activeSpells.pop_back();
+            activeSpells.erase(activeSpells.begin() + i);
             break;
         }
         // Enemies
@@ -29,8 +29,7 @@ void Game::CollisionsGame() {
                     
                 }
                 // Remove spell on hit
-                spell = activeSpells.back();
-                activeSpells.pop_back();
+                activeSpells.erase(activeSpells.begin() + i);
                 break;
             }
         }

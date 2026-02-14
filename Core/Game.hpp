@@ -10,8 +10,6 @@ Game::Game() {
     SetWindowIcon(icon);
     UnloadImage(icon);
 
-
-
     loadAssets();
 
     enemies.push_back(Enemy({500, 500}, "Enemy1"));
@@ -28,7 +26,7 @@ void Game::loadAssets() {
     spellSpritesheet.Init("Assets/Spells.png", 96, 96);
     playerSpritesheet.Init("Assets/Player.png", 126, 384);
     enemyTexture.Init("Assets/Enemies.png", 42, 50);
-    powerUpSpritesheet.Init("Assets/Powerups.png", 48, 84);
+    powerUpSpritesheet.Init("Assets/Powerups.png", 84, 84);
 }
 void Game::Run() {
     while (!WindowShouldClose() && isRunning) {

@@ -74,8 +74,9 @@ void Game::DrawCharacter() {
     }
     playerSpritesheet.draw(playerSprites[playerDirection][playerAnimFrame], {playerPos.x, playerPos.y, 42, 48});
 
-    DrawRectangleRec({15, 15, 100, 10}, GRAY);
-    DrawRectangleRec({15, 15, 100 * ((float)health / 100), 10}, RED);
+    playerHealthBar.Draw({15, 15, 100, 20});
+    playerHealthBar.HandleHealthChange(health);
+    playerHealthBar.Update();
 
     // Draw score
     DrawText(TextFormat("Score: %d", score), GetScreenWidth() - 150, 10, 20, BLACK);
@@ -129,7 +130,7 @@ void Game::DrawSpells() {
         i++;
     }
 }
-void Game::GetPlayerUpgrading() {
+void Game::GetPlayerControls() {
     if (IsKeyDown(KEY_W) && IsKeyUp(KEY_S) && IsKeyUp(KEY_A) && IsKeyUp(KEY_D)) {
         playerVel.y -= playerAcceleration;
         playerDirection = 270;
@@ -195,7 +196,7 @@ void Game::GetPlayerUpgrading() {
     }
 }
 void Game::EventsGame() {
-    GetPlayerUpgrading();
+    GetPlayerControls();
     playerPos.x += playerVel.x;
     playerPos.y += playerVel.y;
     playerVel.x *= 0.8f; // Friction

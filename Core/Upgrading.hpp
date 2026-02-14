@@ -8,6 +8,10 @@ Rectangle card1 = {50, 200, 200, 100};
 Rectangle card2 = {300, 200, 200, 100};
 Rectangle card3 = {550, 200, 200, 100};
 
+Rectangle card1Button = {50, 450, 200, 50};
+Rectangle card2Button = {300, 450, 200, 50};
+Rectangle card3Button = {550, 450, 200, 50};
+
 void Game::UpdateUpgrading() {
     EventsUpgrading();
     BeginDrawing();
@@ -19,9 +23,15 @@ void Game::DrawUpgrading() {
     DrawRectangleRec(card1, DARKBLUE);
     DrawRectangleRec(card2, DARKBLUE);
     DrawRectangleRec(card3, DARKBLUE);
+
+    DrawRectangleRec(card1Button, GREEN);
+    DrawRectangleRec(card2Button, GREEN);
+    DrawRectangleRec(card3Button, GREEN);
     for (int i = 0; i < 3; i++) {
         UpgradeType upgrade = currentUpgrades[i];
         Rectangle card = ((std::vector<Rectangle>){card1, card2, card3})[i];
+        Rectangle button = ((std::vector<Rectangle>){card1Button, card2Button, card3Button})[i];
+        DrawText("Buy", button.x + 70, button.y + 10, 20, BLACK);
         switch (upgrade) {
             case SpellUpgrade:
                 DrawText("Spell Upgrade", card.x + 20, card.y + 40, 20, WHITE);
@@ -30,7 +40,7 @@ void Game::DrawUpgrading() {
                 DrawText("Ability Upgrade", card.x + 20, card.y + 40, 20, WHITE);
                 break;
             case UpMaxHealth:
-                DrawText("Increase Max Health", card.x + 20, card.y + 40, 20, WHITE);
+                DrawText("More Max Health", card.x + 20, card.y + 40, 20, WHITE);
                 break;
             
         }
@@ -40,8 +50,8 @@ void Game::EventsUpgrading() {
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
         Vector2 mousePos = GetMousePosition();
         for (int i = 0; i < 3; i++) {
-            Rectangle card = ((std::vector<Rectangle>){card1, card2, card3})[i];
-            if (CheckCollisionPointRec(mousePos, card)) {
+            Rectangle button = ((std::vector<Rectangle>){card1Button, card2Button, card3Button})[i];
+            if (CheckCollisionPointRec(mousePos, button)) {
                 UpgradeType upgrade = currentUpgrades[i];
                 int key;
                 SpellType newSpell;

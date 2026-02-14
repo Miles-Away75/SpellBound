@@ -6,6 +6,7 @@
 #include "SmartSound.h"
 #include "Rendering.hpp"
 #include "PowerUp.h"
+#include "HealthBar.h"
 
 #include <vector>
 #include <iostream>
@@ -52,7 +53,7 @@ class Game {
         void DrawGameOver();
 
         void EventsGame();
-        void GetPlayerUpgrading();
+        void GetPlayerControls();
         void EventsUpgrading();
 
         void CollisionsGame();
@@ -81,6 +82,7 @@ class Game {
         std::vector<PowerUp> powerUps;
         std::vector<UpgradeType> currentUpgrades = {};
         int health = maxHealth;
+        HealthBar playerHealthBar = HealthBar(maxHealth);
         int score = 0;
         int timesIncreasedSpeed = 0;
         float timeHit = 0.0f;
