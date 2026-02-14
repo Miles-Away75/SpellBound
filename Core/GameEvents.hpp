@@ -63,8 +63,15 @@ void Game::EventsGame() {
     GetPlayerControls();
     GetPlayerSpellControls();
     GetPlayerAbilityControls();
-    playerPos.x += playerVel.x;
-    playerPos.y += playerVel.y;
+    
     playerVel.x *= 0.8f; // Friction
     playerVel.y *= 0.8f; // Friction
+    if (!RectInLevel({playerPos.x + playerVel.x, playerPos.y, 42, 48})) {
+        playerVel.x = 0;
+    }
+    if (!RectInLevel({playerPos.x, playerPos.y + playerVel.y, 42, 48})) {
+        playerVel.y = 0;
+    }
+    playerPos.x += playerVel.x;
+    playerPos.y += playerVel.y;
 }
