@@ -24,6 +24,6 @@ class PowerUp {
         Vector2 pos;
         PowerUp(PowerUpType n_type, Vector2 n_pos) : type(n_type), pos(n_pos) {}
         Rectangle getHitbox() {
-            return {pos.x, pos.y, 48, 42};
+            return {pos.x, pos.y, 24, 21};
         }
 };

@@ -57,11 +57,20 @@ class Game {
         void EventsUpgrading();
 
         void CollisionsGame();
+        void CollisionsSpellPlayers();
+        void CollisionsSpellEnemies();
+        void CollisionsSpells();
+        void CollisionsPlayerPowerUps();
 
         bool ShouldSpawnEnemy();
         PowerUpType GetRandomPowerUp();
 
         void GetRandomUpgrades();
+        void HandlePlayerAnimation();
+        void HandlePlayerDeath();
+        void GetPlayerSpellControls();
+        void GetPlayerAbilityControls();
+        void HandlePowerUpCollection(PowerUp& powerUp);
         
     private:
         Spritesheet spellSpritesheet;
@@ -119,8 +128,10 @@ class Game {
 };
 
 #include "Game.hpp"
-#include "MainMenu.hpp"
+#include "GameEvents.hpp"
 #include "GameState.hpp"
+#include "GameRendering.hpp"
+#include "MainMenu.hpp"
 #include "Upgrading.hpp"
 #include "Collisions.hpp"
 #include "GameOver.hpp"
