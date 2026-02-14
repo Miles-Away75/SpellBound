@@ -74,3 +74,14 @@ void Game::CollisionsPlayerPowerUps() {
         }
     }
 }
+void Game::CollisionsEnemiesWalls() {
+    for (Enemy& enemy : enemies) {
+        if (!RectInLevel({enemy.pos.x, enemy.pos.y, 42, 50})) {
+            // Move enemy back inside the level
+            if (enemy.pos.x < 0) enemy.pos.x = 0;
+            if (enemy.pos.y < 0) enemy.pos.y = 0;
+            if (enemy.pos.x > GetScreenWidth() - 42) enemy.pos.x = GetScreenWidth() - 42;
+            if (enemy.pos.y > GetScreenHeight() - 50) enemy.pos.y = GetScreenHeight() - 50;
+        }
+    }
+}

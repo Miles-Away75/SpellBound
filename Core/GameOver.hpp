@@ -14,7 +14,7 @@ void Game::UpdateGameOver() {
 }
 
 void Game::DrawGameOver() {
-    DrawText(TextFormat("You Reached Score: %d", score), 360, 150, 30, BLACK);
+    DrawText(TextFormat("You Reached Score: %d", score), 250, 150, 30, BLACK);
     DrawText("Game Over", 300, 200, 40, BLACK);
     DrawButton(GameOverButton, "Return to Main Menu");
 }

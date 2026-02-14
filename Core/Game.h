@@ -61,6 +61,7 @@ class Game {
         void CollisionsSpellEnemies();
         void CollisionsSpells();
         void CollisionsPlayerPowerUps();
+        void CollisionsEnemiesWalls();
 
         bool ShouldSpawnEnemy();
         PowerUpType GetRandomPowerUp();

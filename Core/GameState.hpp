@@ -16,13 +16,13 @@ bool Game::ShouldSpawnEnemy() {
 }
 PowerUpType Game::GetRandomPowerUp() {
     int r = GetRandomValue(0, 100);
-    if (r < 10) return Health;
+    if (r < 40) return Health;
 
-    if (r < 20) return DamageUp;
+    if (r < 50) return DamageUp;
 
-    if (r < 30) return SpeedUp;
+    if (r < 60) return SpeedUp;
 
-    if (r < 35) return Upgrade;
+    if (r < 70) return Upgrade;
 
     return None;
 }

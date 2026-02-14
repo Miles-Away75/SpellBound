@@ -42,7 +42,7 @@ float timeBetweenAttacks = 2.0f;
 
 class Enemy {
     public:
-        HealthBar healthBar = HealthBar(health);
+        HealthBar healthBar;
         std::vector<AttackType> attackPaterns;
         Vector2 destination;
         int currentAttack = 0;
@@ -51,9 +51,9 @@ class Enemy {
         Vector2 pos;
         int health;
         std::string name;
-        Enemy(Vector2 n_pos, std::string n_name) : pos(n_pos), name(n_name) {
+        Enemy(Vector2 n_pos, std::string n_name) : pos(n_pos), health(enemyHealth.at(n_name)), name(n_name) {
             attackPaterns = enemyAttackPatterns.at(name);
-            health = enemyHealth.at(name);
+            //health = enemyHealth.at(name);
             healthBar = HealthBar(health);
         }
 

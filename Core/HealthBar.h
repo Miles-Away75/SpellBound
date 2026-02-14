@@ -3,6 +3,7 @@
 
 class HealthBar {
     public:
+        HealthBar() {}
         HealthBar(int maxHealth) : maxHealth(maxHealth), barHealth(maxHealth), realHealth(maxHealth) {}
         void Draw(Rectangle pos, int borderPx = 2) {
             DrawRectangleRec(pos, GRAY);
