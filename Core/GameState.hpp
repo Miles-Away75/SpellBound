@@ -24,7 +24,19 @@ void Game::UpdateGame() {
 
 void Game::DrawCharacter() {
     // Draw the player character
-    playerSpritesheet.draw(playerSprites.at(playerDirection), {playerPos.x, playerPos.y, 42, 48});
+
+    if (IsKeyDown(KEY_W) || IsKeyDown(KEY_A) || IsKeyDown(KEY_S) || IsKeyDown(KEY_D)) {
+        
+        timeSinceFrameStart += GetFrameTime();
+        if (timeSinceFrameStart > 1.0f / playerFPS) {
+            playerAnimFrame = (playerAnimFrame + 1) % playerSprites[playerDirection].size();
+            timeSinceFrameStart = 0.0f;
+        }
+    } 
+    else {
+        playerAnimFrame = 0;
+    }
+    playerSpritesheet.draw(playerSprites[playerDirection][playerAnimFrame], {playerPos.x, playerPos.y, 42, 48});
 
     DrawRectangleRec({15, 15, 100, 10}, GRAY);
     DrawRectangleRec({15, 15, 100 * ((float)health / 100), 10}, RED);
@@ -49,7 +61,6 @@ void Game::DrawSpells() {
     int i = 0;
     for (auto pair : bindedSpells) {
         float time = GetTime() - spellTimes[pair.first];
-        std::cout << "Before cooldown at\n";
         float cooldown = spellInfos.at(pair.second).cooldown;
         if (time > cooldown) {
             time = cooldown;

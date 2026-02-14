@@ -9,7 +9,7 @@ enum AbilityType {
 };
 std::unordered_map<AbilityType, float> abilityCooldowns = {
     {Teleport, 20.0f},
-    {Dash, 5.0f}
+    {Dash, 2.0f}
 };
 
 void UseAbility(AbilityType ability, Vector2 & playerPos, Vector2 & playerVel) {

@@ -12,6 +12,8 @@
 const int ScreenWidth = 800;
 const int ScreenHeight = 600;
 
+const int playerFPS = 8;
+
 struct Level {
     std::unordered_map<std::string, Vector2> enemyPositions;
     SpellType reward;
@@ -70,17 +72,19 @@ class Game {
         float timeHit = 0.0f;
 
 
-        std::unordered_map<float, Rectangle> playerSprites = { // angle : sprite (0 == RIGHT, 90 == DOWN, 180 == LEFT, 270 == UP)
-            {90, {0, 0, 42, 48}},
-            {135, {42, 0, 42, 48}},
-            {180, {84, 0, 42, 48}},
-            {225, {0, 48, 42, 48}},
-            {270, {42, 48, 42, 48}},
-            {315, {84, 48, 42, 48}},
-            {0, {0, 96, 42, 48}},
-            {45, {42, 96, 42, 48}}
+        std::unordered_map<float, std::vector<Rectangle>> playerSprites = { // angle : sprite (0 == RIGHT, 90 == DOWN, 180 == LEFT, 270 == UP)
+            {90, {{0, 0, 42, 48}, {42, 0, 42, 48}, {84, 0, 42, 48}}},
+            {135, {{0, 48, 42, 48}, {42, 48, 42, 48}, {84, 48, 42, 48}}},
+            {180, {{0, 96, 42, 48}, {42, 96, 42, 48}, {84, 96, 42, 48}}},
+            {225, {{0, 144, 42, 48}, {42, 144, 42, 48}, {84, 144, 42, 48}}},
+            {270, {{0, 192, 42, 48}, {42, 192, 42, 48}, {84, 192, 42, 48}}},
+            {315, {{0, 240, 42, 48}, {42, 240, 42, 48}, {84, 240, 42, 48}}},
+            {0, {{0, 288, 42, 48}, {42, 288, 42, 48}, {84, 288, 42, 48}}},
+            {45, {{0, 336, 42, 48}, {42, 336, 42, 48}, {84, 336, 42, 48}}}
         };
         float playerDirection = 90;
+        int playerAnimFrame = 0;
+        float timeSinceFrameStart = 0.0f;
         
         enum GameState {
             MainMenu,

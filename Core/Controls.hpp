@@ -107,7 +107,8 @@ void Game::EventsControls() {
         bindedAbilities[key] = abilityInventory.back();
         abilityTimes[key] = 0.0f;
         abilityInventory.pop_back();
+    }
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && CheckCollisionPointRec(GetMousePosition(), HomeButton)) {
         state = Playing;
-    }
+    } 
 }
