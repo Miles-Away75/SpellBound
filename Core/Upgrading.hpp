@@ -25,6 +25,8 @@ void Game::DrawUpgrading() {
     DrawRectangleRec(card1Button, GREEN);
     DrawRectangleRec(card2Button, GREEN);
     DrawRectangleRec(card3Button, GREEN);
+
+    DrawText(TextFormat("Coins: %d", coins), 10, 10, 20, BLACK);
     for (int i = 0; i < 3; i++) {
         UpgradeType upgrade = currentUpgrades[i];
         Rectangle card = ((std::vector<Rectangle>){card1, card2, card3})[i];
@@ -52,10 +54,7 @@ void Game::EventsUpgrading() {
         for (int i = 0; i < 3; i++) {
             Rectangle button = ((std::vector<Rectangle>){card1Button, card2Button, card3Button})[i];
             if (CheckCollisionPointRec(mousePos, button)) {
-                if (coins < upgradePrices.at(currentUpgrades[i])) {
-
-                    return; // Not enough coins
-                }
+                if (coins < upgradePrices.at(currentUpgrades[i])) return; // Not enough coins
                 coins -= upgradePrices.at(currentUpgrades[i]);
                 UpgradeType upgrade = currentUpgrades[i];
                 int key;
@@ -70,7 +69,7 @@ void Game::EventsUpgrading() {
                             BeginDrawing();
                             ClearBackground(RED);
                             DrawText("Press a key to bind the new spell to", 150, 200, 20, WHITE);
-                            spellSpritesheet.draw(spellSprites.at(newSpell), {150, 250, 48, 48});
+                            spellSpritesheet.draw(spellSprites.at(newSpell), {150, 300, 48, 48});
                             EndDrawing();
                             key = GetKeyPressed();
                         }

@@ -68,7 +68,7 @@ class Enemy {
             timeStartAttack = GetTime();
         }
         void Draw(Spritesheet& texture) {
-            texture.draw(enemySprites.at(name), {pos.x, pos.y, 63, 75});
+            texture.draw(enemySprites.at(name), {pos.x, pos.y, 42, 50});
             // draw health bar
             healthBar.Draw({pos.x, pos.y - 10, 42, 5}, 1);
             healthBar.HandleHealthChange(health);
