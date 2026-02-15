@@ -94,7 +94,9 @@ void Game::DrawPickingUpgrade() {
         Upgrade upgrade = currentUpgrades[i];
         Rectangle card = ((std::vector<Rectangle>){card1, card2, card3})[i];
         Rectangle button = ((std::vector<Rectangle>){card1Button, card2Button, card3Button})[i];
-        DrawButton(button, "Buy");
+        DrawButton(button, "Buy", (coins >= upgrade.price) ? GREEN : RED);
+        coin.draw({button.x + button.width + 10, button.y + 10}, 0.5f);
+        DrawText(TextFormat("%d", upgrade.price), button.x + button.width + 50, button.y + 10, 20, BLACK);
         
         switch (upgrade.type) {
             case SpellUpgrade:
@@ -121,7 +123,8 @@ void Game::EventsPickingUpgrade() {
         }
         for (int i = 0; i < 3; i++) {
             Rectangle button = ((std::vector<Rectangle>){card1Button, card2Button, card3Button})[i];
-            if (CheckCollisionPointRec(mousePos, button)) {
+            if (CheckCollisionPointRec(mousePos, button) && coins >= currentUpgrades[i].price) {
+                coins -= currentUpgrades[i].price;
                 Upgrade upgrade = currentUpgrades[i];
                 int key;
                 SpellType newSpell;
