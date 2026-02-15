@@ -25,7 +25,7 @@ void Game::loadAssets() {
     // Load textures, sounds, etc.
     spellSpritesheet.Init("Assets/Spells.png", 96, 96);
     playerSpritesheet.Init("Assets/Player.png", 126, 384);
-    enemyTexture.Init("Assets/Enemies.png", 42, 50);
+    enemySpritesheet.Init("Assets/Enemies.png", 84, 50);
     powerUpSpritesheet.Init("Assets/Powerups.png", 96, 84);
 }
 void Game::Run() {

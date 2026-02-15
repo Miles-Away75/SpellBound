@@ -20,6 +20,10 @@ enum AttackType {
     VericalFireWall,
     GoToRandomPosition
 };
+const std::unordered_map<std::string, Rectangle> enemySprites {
+    {"Enemy1", {0, 0, 42, 50}},
+    {"Boss1", {42, 0, 42, 50}}
+};
 
 const std::unordered_map<std::string, std::vector<AttackType>> enemyAttackPatterns = {
     {"Enemy1", {FireballTowardsPlayer, MoveTowardsPlayer, ThunderTowardsPlayer, GoToRandomPosition, GaurdSpread, RunFromPlayer}},
@@ -53,7 +57,6 @@ class Enemy {
         std::string name;
         Enemy(Vector2 n_pos, std::string n_name) : pos(n_pos), health(enemyHealth.at(n_name)), name(n_name) {
             attackPaterns = enemyAttackPatterns.at(name);
-            //health = enemyHealth.at(name);
             healthBar = HealthBar(health);
         }
 
@@ -64,14 +67,14 @@ class Enemy {
             currentAttack = (currentAttack + 1) % attackPaterns.size();
             timeStartAttack = GetTime();
         }
-        void Draw(SmartTexture& texture) {
-            texture.draw(pos);
+        void Draw(Spritesheet& texture) {
+            texture.draw(enemySprites.at(name), {pos.x, pos.y, 63, 75});
             // draw health bar
             healthBar.Draw({pos.x, pos.y - 10, 42, 5}, 1);
             healthBar.HandleHealthChange(health);
             healthBar.Update();
         }
-        void Update(Vector2 playerPos, std::vector<Spell>& activeSpells, SmartTexture& texture);
+        void Update(Vector2 playerPos, std::vector<Spell>& activeSpells, Spritesheet& texture);
 };
 
 #include "EnemyAttacks.hpp"

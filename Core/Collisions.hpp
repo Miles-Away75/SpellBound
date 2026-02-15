@@ -33,7 +33,7 @@ void Game::CollisionsSpellEnemies() {
             if (activeSpells[i].mode == Peaceful && activeSpells[i].type != Gaurd && CheckCollisionRecs(activeSpells[i].getHitbox(), {enemies[j].pos.x, enemies[j].pos.y, 42, 50})) {
                 enemies[j].health -= activeSpells[i].info.damage * damageMultiplier;
                 if (enemies[j].health <= 0) {
-                    score += enemyScores.at(enemies[j].name);
+                    coins += enemyScores.at(enemies[j].name);
                     enemies[j] = enemies.back();
                     enemies.pop_back();
                     PowerUpType powerUpType = GetRandomPowerUp();

@@ -13,12 +13,12 @@ void Game::DrawCharacter() {
     playerHealthBar.HandleHealthChange(health);
     playerHealthBar.Update();
     // Draw score
-    DrawText(TextFormat("Score: %d", score), GetScreenWidth() - 150, 10, 20, BLACK);
+    DrawText(TextFormat("Coins: %d", coins), GetScreenWidth() - 150, 10, 20, BLACK);
 }
 void Game::DrawEnemies() {
     // Draw enemies
     for (Enemy &enemy : enemies) {
-        enemy.Update(playerPos, activeSpells, enemyTexture);
+        enemy.Update(playerPos, activeSpells, enemySpritesheet);
     }
     if (ShouldSpawnEnemy()) {
         Vector2 spawnPos = {random(0, GetScreenWidth()), random(0, GetScreenHeight())};

@@ -28,6 +28,11 @@ enum UpgradeType {
     UpMaxHealth,
     UPGRADE_COUNT
 };
+const std::unordered_map<UpgradeType, int> upgradePrices = {
+    {SpellUpgrade, 30},
+    {AbilityUpgrade, 20},
+    {UpMaxHealth, 10}
+};
 
 class Game {
     public:
@@ -77,7 +82,7 @@ class Game {
         Spritesheet spellSpritesheet;
         Spritesheet playerSpritesheet;
         Spritesheet powerUpSpritesheet;
-        SmartTexture enemyTexture;
+        Spritesheet enemySpritesheet;
 
         bool isRunning = true;
 
@@ -93,7 +98,7 @@ class Game {
         std::vector<UpgradeType> currentUpgrades = {};
         int health = maxHealth;
         HealthBar playerHealthBar = HealthBar(maxHealth);
-        int score = 0;
+        int coins = 0;
         int timesIncreasedSpeed = 0;
         float timeHit = 0.0f;
 

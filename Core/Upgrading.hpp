@@ -1,8 +1,6 @@
 #include "Game.h"
 
 
-
-
 // Upgrading are spell bindings
 Rectangle card1 = {50, 200, 200, 100};
 Rectangle card2 = {300, 200, 200, 100};
@@ -31,7 +29,7 @@ void Game::DrawUpgrading() {
         UpgradeType upgrade = currentUpgrades[i];
         Rectangle card = ((std::vector<Rectangle>){card1, card2, card3})[i];
         Rectangle button = ((std::vector<Rectangle>){card1Button, card2Button, card3Button})[i];
-        DrawText("Buy", button.x + 70, button.y + 10, 20, BLACK);
+        DrawButton(button, TextFormat("Buy for %d coins", upgradePrices.at(upgrade)), (coins < upgradePrices.at(upgrade)) ? RED : GREEN);
         switch (upgrade) {
             case SpellUpgrade:
                 DrawText("Spell Upgrade", card.x + 20, card.y + 40, 20, WHITE);
@@ -54,6 +52,11 @@ void Game::EventsUpgrading() {
         for (int i = 0; i < 3; i++) {
             Rectangle button = ((std::vector<Rectangle>){card1Button, card2Button, card3Button})[i];
             if (CheckCollisionPointRec(mousePos, button)) {
+                if (coins < upgradePrices.at(currentUpgrades[i])) {
+
+                    return; // Not enough coins
+                }
+                coins -= upgradePrices.at(currentUpgrades[i]);
                 UpgradeType upgrade = currentUpgrades[i];
                 int key;
                 SpellType newSpell;

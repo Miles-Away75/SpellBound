@@ -84,7 +84,7 @@ struct Spell {
             return;
         }
 
-        Vector2 vel = {(float)std::cos(dir * (3.14/180)) * info.speed, (float)std::sin(dir * (3.14/180)) * info.speed};
+        Vector2 vel = {std::cos(dir * (3.14/180)) * info.speed, std::sin(dir * (3.14/180)) * info.speed};
         pos.x += vel.x * GetFrameTime();
         pos.y += vel.y * GetFrameTime();
     }
