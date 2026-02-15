@@ -25,7 +25,7 @@ void Game::DrawEnemies() {
         while (Distance(spawnPos, playerPos) < 100) { // Ensure enemies don't spawn too close to the player
             spawnPos = {random(0, GetScreenWidth()), random(0, GetScreenHeight())};
         }
-        enemies.push_back(Enemy(spawnPos, "Enemy1"));
+        enemies.push_back(Enemy(spawnPos, GetRandomEnemy()));
     }
 }
 void Game::DrawSpells() {

@@ -1,6 +1,12 @@
 #include "Game.h"
 #include "Math.h"
 
+std::string GetRandomEnemy() {
+    int r = GetRandomValue(0, 100);
+    if (r < 80) return "Enemy1";
+    return "Boss1";
+}
+
 void Game::GetRandomUpgrades() {
     currentUpgrades.clear();
     for (int i = 0; i < 3; i++) {

@@ -95,6 +95,7 @@ void Game::EventsUpgrading() {
                         break;
                 }
                 state = Playing;
+                activeSpells.clear();
                 return;
             }
         }
