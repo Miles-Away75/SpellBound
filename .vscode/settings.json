@@ -70,5 +70,6 @@
 		"sstream": "cpp",
 		"stop_token": "cpp",
 		"thread": "cpp"
-	}
+	},
+	"vscode-pets.theme": "forest"
 }

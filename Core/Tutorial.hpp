@@ -2,7 +2,7 @@
 
 void Game::UpdateTutorial() {
     if (IsKeyPressed(KEY_ENTER)) {
-        state = Playing;
+        state = Upgrading;
     }
     BeginDrawing();
         ClearBackground(RAYWHITE);

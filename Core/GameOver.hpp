@@ -9,11 +9,11 @@ void Game::UpdateGameOver() {
     EndDrawing();
 
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && CheckCollisionPointRec(GetMousePosition(), GameOverButton)) {
-        state = Playing;
+        state = Upgrading;
     }
 }
 
 void Game::DrawGameOver() {
     DrawText("Game Over", 300, 200, 40, BLACK);
-    DrawButton(GameOverButton, "Return to Main Menu");
+    DrawButton(GameOverButton, "Home");
 }

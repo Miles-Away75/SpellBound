@@ -24,13 +24,30 @@ int maxHealth = 100;
 enum UpgradeType {
     SpellUpgrade,
     AbilityUpgrade,
-    UpMaxHealth,
     UPGRADE_COUNT
 };
 const std::unordered_map<UpgradeType, int> upgradePrices = {
     {SpellUpgrade, 30},
     {AbilityUpgrade, 20},
-    {UpMaxHealth, 10}
+
+};
+struct Upgrade {
+    UpgradeType type;
+    int price;
+    SpellType spellUpgrade; // Only used if type is SpellUpgrade
+    AbilityType abilityUpgrade; // Only used if type is AbilityUpgrade
+    bool operator==(const Upgrade& other) const {
+        if (type != other.type) return false;
+        switch (type) {
+            case SpellUpgrade:
+                return spellUpgrade == other.spellUpgrade;
+            case AbilityUpgrade:
+                return abilityUpgrade == other.abilityUpgrade;
+            default:
+                break;
+        }
+        return false;
+    }
 };
 
 class Game {
@@ -48,6 +65,7 @@ class Game {
         void UpdateUpgrading();
         void UpdateGameOver();
         void UpdateTutorial();
+        void UpdatePickingUpgrade();
 
         void DrawCharacter();
         void DrawSpells();
@@ -57,10 +75,11 @@ class Game {
         void DrawEffectIcons();
         void DrawGameOver();
         void DrawTutorial();
+        void DrawPickingUpgrade();
 
         void EventsGame(); 
         void EventsUpgrading();
-        void EventsGameOver();
+        void EventsPickingUpgrade();
 
         void CollisionsGame();
         void CollisionsSpellPlayers();
@@ -69,6 +88,7 @@ class Game {
         void CollisionsPlayerPowerUps();
 
         bool ShouldSpawnEnemy();
+        Upgrade generateUpgrade(UpgradeType type);
 
         PowerUpType GetRandomPowerUp();
 
@@ -86,6 +106,8 @@ class Game {
         Spritesheet playerSpritesheet;
         Spritesheet powerUpSpritesheet;
         Spritesheet enemySpritesheet;
+        Spritesheet abilitySpritesheet;
+        SmartTexture coin;
 
         bool isRunning = true;
 
@@ -98,8 +120,10 @@ class Game {
         std::vector<Spell> activeSpells;
         std::vector<Enemy> enemies;
         std::vector<PowerUp> powerUps;
-        std::vector<UpgradeType> currentUpgrades = {};
+        std::vector<Upgrade> currentUpgrades = {};
         int health = maxHealth;
+        int coins = 0;
+        int rerollsLeft = 3;
         HealthBar playerHealthBar = HealthBar(maxHealth);
         int timesIncreasedSpeed = 0;
         float timeHit = 0.0f;
@@ -132,7 +156,8 @@ class Game {
             Playing,
             Upgrading,
             GameOver,
-            Tutorial
+            Tutorial,
+            PickingUpgrade
 
         } state = MainMenu;
 

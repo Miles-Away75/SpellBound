@@ -18,22 +18,20 @@ float Distance(Vector2 a, Vector2 b) {
     return std::sqrt(dx * dx + dy * dy);
 }
 bool RectInLevel(Rectangle rect) {
-    if (!CheckCollisionRecs(rect, {0, -1, (float)GetScreenWidth(), 1}) &&
-        !CheckCollisionRecs(rect, {-1, 0, 1, (float)GetScreenHeight()}) &&
-        !CheckCollisionRecs(rect, {0, (float)GetScreenHeight() - 1, (float)GetScreenWidth(), 1}) &&
-        !CheckCollisionRecs(rect, {(float)GetScreenWidth() - 1, 0, 1, (float)GetScreenHeight()})) {
-        return true;
+    Rectangle levelBounds = {0, 0, (float)GetScreenWidth(), (float)GetScreenHeight()};
+    // check all 4 corners of the rectangle
+    return CheckCollisionPointRec({rect.x, rect.y}, levelBounds) &&
+           CheckCollisionPointRec({rect.x + rect.width, rect.y}, levelBounds) &&
+           CheckCollisionPointRec({rect.x, rect.y + rect.height}, levelBounds) &&
+           CheckCollisionPointRec({rect.x + rect.width, rect.y + rect.height}, levelBounds);
+}
+float random(float a, float b) {
+    return GetRandomValue(a * 1000, b * 1000) / 1000;
+} 
+template <typename T>
+bool contains(std::vector<T> vec, T element) {
+    for (T el : vec) {
+        if (el == element) return true;
     }
     return false;
 }
-float random(float a, float b) {
-    std::random_device rd; 
-    std::mt19937 gen(rd()); 
-
-
-    std::uniform_int_distribution<> distrib(1, 100); 
-
-    // 3. Generate the random number
-    int random_num = distrib(gen);
-    return a + (b - a) * random_num / 100.0f;
-} 

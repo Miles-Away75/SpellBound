@@ -10,7 +10,7 @@ std::string GetRandomEnemy() {
 void Game::GetRandomUpgrades() {
     currentUpgrades.clear();
     for (int i = 0; i < 3; i++) {
-        currentUpgrades.push_back((UpgradeType)random(0, UpgradeType::UPGRADE_COUNT));
+        currentUpgrades.push_back(generateUpgrade((UpgradeType)random(0, UpgradeType::UPGRADE_COUNT)));
     }
 }
 bool Game::ShouldSpawnEnemy() {
@@ -28,7 +28,7 @@ PowerUpType Game::GetRandomPowerUp() {
 
     if (r < 60) return SpeedUp;
 
-    if (r < 70) return Upgrade;
+    //if (r < 70) return Upgrade;
 
     return None;
 }
@@ -82,12 +82,6 @@ void Game::HandlePowerUpCollection(PowerUp& powerUp) {
     if (powerUp.type == Health) {
             health += 20;
             if (health > maxHealth) health = maxHealth;
-        }
-        if (powerUp.type == Upgrade) {
-            std::cout << "Upgrade Collected\n";
-            state = Upgrading;
-            GetRandomUpgrades();
-            return;
         }
         if (powerUp.type == DamageUp) {
             hasDamageUp = true;

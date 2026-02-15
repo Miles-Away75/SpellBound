@@ -27,6 +27,8 @@ void Game::loadAssets() {
     playerSpritesheet.Init("Assets/Player.png", 126, 384);
     enemySpritesheet.Init("Assets/Enemies.png", 84, 50);
     powerUpSpritesheet.Init("Assets/Powerups.png", 96, 84);
+    abilitySpritesheet.Init("Assets/Abilities.png", 132, 78);
+    coin.Init("Assets/Coin.png", 48, 48);
 }
 void Game::Run() {
     while (!WindowShouldClose() && isRunning) {
@@ -49,6 +51,9 @@ void Game::Update() {
             return;
         case Tutorial:
             UpdateTutorial();
+            return;
+        case PickingUpgrade:
+            UpdatePickingUpgrade();
             return;
 
     }

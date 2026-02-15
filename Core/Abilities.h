@@ -12,6 +12,10 @@ std::unordered_map<AbilityType, float> abilityCooldowns = {
     {Teleport, 20.0f},
     {Dash, 2.0f}
 };
+std::unordered_map<AbilityType, Rectangle> abilitySprites = {
+    {Dash, {0, 0, 66, 78}},
+    {Teleport, {66, 0, 66, 78}}
+};
 
 void UseAbility(AbilityType ability, Vector2 & playerPos, Vector2 & playerVel) {
     switch (ability) {
