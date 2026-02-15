@@ -3,9 +3,8 @@
 
 std::string GetRandomEnemy() {
     int r = GetRandomValue(0, 100);
-    //if (r < 80) return "Enemy1";
-    //return "Boss1";
-    return "Enemy1";
+    if (r < 95 || GetTime() < 20.0) return "Enemy1"; // give 20 seconds before boss can spawn
+    return "Boss1";
 }
 
 void Game::GetRandomUpgrades() {

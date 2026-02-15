@@ -33,12 +33,13 @@ void Game::CollisionsSpellEnemies() {
             if (activeSpells[i].mode == Peaceful && activeSpells[i].type != Gaurd && CheckCollisionRecs(activeSpells[i].getHitbox(), {enemies[j].pos.x, enemies[j].pos.y, 42, 50})) {
                 enemies[j].health -= activeSpells[i].info.damage * (hasDamageUp ? 2 : 1);
                 if (enemies[j].health <= 0) {
-                    enemies[j] = enemies.back();
-                    enemies.pop_back();
                     PowerUpType powerUpType = GetRandomPowerUp();
                     if (powerUpType != None) {
                         powerUps.push_back(PowerUp(powerUpType, enemies[j].pos));
                     }
+                    enemies[j] = enemies.back();
+                    enemies.pop_back();
+                    
                 }
                 // Remove spell on hit
                 activeSpells.erase(activeSpells.begin() + i);
