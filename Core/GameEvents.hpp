@@ -3,40 +3,42 @@
 
 
 void Game::GetPlayerControls() {
+    float currentPlayerAcceleration = playerAcceleration;
+    if (hasSpeedUp) {currentPlayerAcceleration += 0.5f;}
     if (IsKeyDown(KEY_W) && IsKeyDown(KEY_A)) {
-        playerVel.x += Normalize({-playerAcceleration, -playerAcceleration}).x * playerAcceleration;
-        playerVel.y += Normalize({-playerAcceleration, -playerAcceleration}).y * playerAcceleration;
+        playerVel.x += Normalize({-currentPlayerAcceleration, -currentPlayerAcceleration}).x * currentPlayerAcceleration;
+        playerVel.y += Normalize({-currentPlayerAcceleration, -currentPlayerAcceleration}).y * currentPlayerAcceleration;
         playerDirection = 225;
     }
     else if (IsKeyDown(KEY_W) && IsKeyDown(KEY_D)) {
-        playerVel.x += Normalize({playerAcceleration, -playerAcceleration}).x * playerAcceleration;
-        playerVel.y += Normalize({playerAcceleration, -playerAcceleration}).y * playerAcceleration;
+        playerVel.x += Normalize({currentPlayerAcceleration, -currentPlayerAcceleration}).x * currentPlayerAcceleration;
+        playerVel.y += Normalize({currentPlayerAcceleration, -currentPlayerAcceleration}).y * currentPlayerAcceleration;
         playerDirection = 315;
     }
     else if (IsKeyDown(KEY_S) && IsKeyDown(KEY_A)) {
-        playerVel.x += Normalize({-playerAcceleration, playerAcceleration}).x * playerAcceleration;
-        playerVel.y += Normalize({-playerAcceleration, playerAcceleration}).y * playerAcceleration;
+        playerVel.x += Normalize({-currentPlayerAcceleration, currentPlayerAcceleration}).x * currentPlayerAcceleration;
+        playerVel.y += Normalize({-currentPlayerAcceleration, currentPlayerAcceleration}).y * currentPlayerAcceleration;
         playerDirection = 135;
     }
     else if (IsKeyDown(KEY_S) && IsKeyDown(KEY_D)) {
-        playerVel.x += Normalize({playerAcceleration, playerAcceleration}).x * playerAcceleration;
-        playerVel.y += Normalize({playerAcceleration, playerAcceleration}).y * playerAcceleration;
+        playerVel.x += Normalize({currentPlayerAcceleration, currentPlayerAcceleration}).x * currentPlayerAcceleration;
+        playerVel.y += Normalize({currentPlayerAcceleration, currentPlayerAcceleration}).y * currentPlayerAcceleration;
         playerDirection = 45;
     }
     else if (IsKeyDown(KEY_W)) {
-        playerVel.y -= playerAcceleration;
+        playerVel.y -= currentPlayerAcceleration;
         playerDirection = 270;
     }
     else if (IsKeyDown(KEY_S)) {
-        playerVel.y += playerAcceleration;
+        playerVel.y += currentPlayerAcceleration;
         playerDirection = 90;
     }
     else if (IsKeyDown(KEY_A)) {
-        playerVel.x -= playerAcceleration;
+        playerVel.x -= currentPlayerAcceleration;
         playerDirection = 180;
     }
     else if (IsKeyDown(KEY_D)) {
-        playerVel.x += playerAcceleration;
+        playerVel.x += currentPlayerAcceleration;
         playerDirection = 0;
     }
     

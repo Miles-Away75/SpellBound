@@ -63,3 +63,15 @@ void Game::DrawSpells() {
         i++;
     }
 }
+void Game::DrawEffectIcons() {
+    if (hasDamageUp) {
+        powerUpSpritesheet.draw(powerUpSprites.at(DamageUp), {10, 200, 48, 48});
+        DrawRectangleRec({10, 200, 48, 10}, GRAY);
+        DrawRectangleRec({10, 200, 48 * std::min(1.0f, ((float)GetTime() - startOfDamageUp) / 10.0f), 10}, RED);
+    }
+    if (hasSpeedUp) {
+        powerUpSpritesheet.draw(powerUpSprites.at(SpeedUp), {70, 200, 48, 48});
+        DrawRectangleRec({70, 200, 48, 10}, GRAY);
+        DrawRectangleRec({70, 200, 48 * std::min(1.0f, ((float)GetTime() - startOfSpeedUp) / 10.0f), 10}, RED);
+    }
+}

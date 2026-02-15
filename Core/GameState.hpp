@@ -3,8 +3,9 @@
 
 std::string GetRandomEnemy() {
     int r = GetRandomValue(0, 100);
-    if (r < 80) return "Enemy1";
-    return "Boss1";
+    //if (r < 80) return "Enemy1";
+    //return "Boss1";
+    return "Enemy1";
 }
 
 void Game::GetRandomUpgrades() {
@@ -55,12 +56,13 @@ void Game::UpdateGame() {
         DrawPowerUps();
         DrawEnemies();
         DrawSpells();
-        
+        DrawEffectIcons();
     EndDrawing();
 
     CollisionsGame();
     if (state != Playing) return;
     HandlePlayerAnimation();
+    HandleEffects();
 }
 
 
@@ -89,10 +91,19 @@ void Game::HandlePowerUpCollection(PowerUp& powerUp) {
             return;
         }
         if (powerUp.type == DamageUp) {
-            damageMultiplier += 0.5f;
+            hasDamageUp = true;
+            startOfDamageUp = GetTime();
         }
         if (powerUp.type == SpeedUp) {
-            playerAcceleration += 0.5;
+            hasSpeedUp = true;
+            startOfSpeedUp = GetTime();
         }
 }
-
+void Game::HandleEffects() {
+    if (hasDamageUp && GetTime() - startOfDamageUp > 10.0f) {
+        hasDamageUp = false;
+    }
+    if (hasSpeedUp && GetTime() - startOfSpeedUp > 10.0f) {
+        hasSpeedUp = false;
+    }
+}

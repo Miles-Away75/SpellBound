@@ -19,5 +19,5 @@ void Game::DrawTutorial() {
     DrawText("Defeat enemies to get power-ups and buy upgrades!", ScreenWidth/2 - MeasureText("Defeat enemies to get power-ups and buy upgrades!", 20)/2, ScreenHeight/2 + 40, 20, DARKGRAY);
     DrawText("Press ENTER to start playing!", ScreenWidth/2 - MeasureText("Press ENTER to start playing!", 30)/2, ScreenHeight/2 + 100, 30, BLACK);
 
-    DrawText("J : Firaball\nK : Guard\nL : Shield\nR : Teleport\nF : Dash", 10, ScreenHeight - 100, 20, DARKGRAY);
+    DrawText("J : Firaball\nK : Guard\nL : Shield\nR : Teleport\nF : Dash", 10, ScreenHeight - 150, 20, DARKGRAY);
 }

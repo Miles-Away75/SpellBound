@@ -18,7 +18,6 @@ const int playerFPS = 8;
 
 float playerAcceleration = 0.5;
 
-float damageMultiplier = 1.0f;
 
 int maxHealth = 100;
 
@@ -55,6 +54,7 @@ class Game {
         void DrawEnemies();
         void DrawUpgrading();
         void DrawPowerUps();
+        void DrawEffectIcons();
         void DrawGameOver();
         void DrawTutorial();
 
@@ -80,6 +80,7 @@ class Game {
         void HandlePowerUpCollection(PowerUp& powerUp);
         void HandlePlayerAnimation();
         void HandlePlayerDeath();
+        void HandleEffects();
     private:
         Spritesheet spellSpritesheet;
         Spritesheet playerSpritesheet;
@@ -102,6 +103,11 @@ class Game {
         HealthBar playerHealthBar = HealthBar(maxHealth);
         int timesIncreasedSpeed = 0;
         float timeHit = 0.0f;
+
+        bool hasDamageUp = false;
+        bool hasSpeedUp = false;
+        float startOfDamageUp = 0.0f;
+        float startOfSpeedUp = 0.0f;
 
         float timeSinceLastSpawn = 0.0f;
         float timeBetweenSpawns = 5.0f;
