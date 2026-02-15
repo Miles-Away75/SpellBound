@@ -12,8 +12,7 @@ void Game::DrawCharacter() {
     playerHealthBar.Draw({15, 15, 100, 20});
     playerHealthBar.HandleHealthChange(health);
     playerHealthBar.Update();
-    // Draw score
-    DrawText(TextFormat("Coins: %d", coins), GetScreenWidth() - 150, 10, 20, BLACK);
+    
 }
 void Game::DrawEnemies() {
     // Draw enemies
@@ -22,7 +21,7 @@ void Game::DrawEnemies() {
     }
     if (ShouldSpawnEnemy()) {
         Vector2 spawnPos = {random(0, GetScreenWidth()), random(0, GetScreenHeight())};
-        while (Distance(spawnPos, playerPos) < 100 && !RectInLevel({spawnPos.x, spawnPos.y, 42, 50})) { // Ensure enemies don't spawn too close to the player
+        while (Distance(spawnPos, playerPos) < 100 || !RectInLevel({spawnPos.x, spawnPos.y, 42, 50})) { // Ensure enemies don't spawn too close to the player
             spawnPos = {random(0, GetScreenWidth()), random(0, GetScreenHeight())};
         }
         enemies.push_back(Enemy(spawnPos, GetRandomEnemy()));

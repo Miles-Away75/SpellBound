@@ -26,12 +26,11 @@ void Game::DrawUpgrading() {
     DrawRectangleRec(card2Button, GREEN);
     DrawRectangleRec(card3Button, GREEN);
 
-    DrawText(TextFormat("Coins: %d", coins), 10, 10, 20, BLACK);
     for (int i = 0; i < 3; i++) {
         UpgradeType upgrade = currentUpgrades[i];
         Rectangle card = ((std::vector<Rectangle>){card1, card2, card3})[i];
         Rectangle button = ((std::vector<Rectangle>){card1Button, card2Button, card3Button})[i];
-        DrawButton(button, TextFormat("Buy for %d coins", upgradePrices.at(upgrade)), (coins < upgradePrices.at(upgrade)) ? RED : GREEN);
+        DrawButton(button, "Buy");
         switch (upgrade) {
             case SpellUpgrade:
                 DrawText("Spell Upgrade", card.x + 20, card.y + 40, 20, WHITE);
@@ -54,8 +53,6 @@ void Game::EventsUpgrading() {
         for (int i = 0; i < 3; i++) {
             Rectangle button = ((std::vector<Rectangle>){card1Button, card2Button, card3Button})[i];
             if (CheckCollisionPointRec(mousePos, button)) {
-                if (coins < upgradePrices.at(currentUpgrades[i])) return; // Not enough coins
-                coins -= upgradePrices.at(currentUpgrades[i]);
                 UpgradeType upgrade = currentUpgrades[i];
                 int key;
                 SpellType newSpell;
@@ -83,7 +80,7 @@ void Game::EventsUpgrading() {
                             BeginDrawing();
                             ClearBackground(RED);
                             DrawText("Press a key to bind the new ability to", 150, 200, 20, WHITE);
-                            // Assuming you have a way to draw ability icons similar to spells
+
                             DrawText((newAbility == Teleport) ? "Teleport" : "Dash", 150, 250, 20, WHITE);
                             EndDrawing();
                             key = GetKeyPressed();

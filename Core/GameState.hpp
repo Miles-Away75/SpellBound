@@ -89,7 +89,7 @@ void Game::HandlePowerUpCollection(PowerUp& powerUp) {
             return;
         }
         if (powerUp.type == DamageUp) {
-            damageMultiplier += 0.25f;
+            damageMultiplier += 0.5f;
         }
         if (powerUp.type == SpeedUp) {
             playerAcceleration += 0.5;

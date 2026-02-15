@@ -48,18 +48,19 @@ class Game {
         void UpdateGame();
         void UpdateUpgrading();
         void UpdateGameOver();
+        void UpdateTutorial();
 
         void DrawCharacter();
         void DrawSpells();
         void DrawEnemies();
         void DrawUpgrading();
         void DrawPowerUps();
-
         void DrawGameOver();
+        void DrawTutorial();
 
-        void EventsGame();
-        void GetPlayerControls();
+        void EventsGame(); 
         void EventsUpgrading();
+        void EventsGameOver();
 
         void CollisionsGame();
         void CollisionsSpellPlayers();
@@ -68,15 +69,17 @@ class Game {
         void CollisionsPlayerPowerUps();
 
         bool ShouldSpawnEnemy();
+
         PowerUpType GetRandomPowerUp();
 
         void GetRandomUpgrades();
-        void HandlePlayerAnimation();
-        void HandlePlayerDeath();
         void GetPlayerSpellControls();
         void GetPlayerAbilityControls();
+        void GetPlayerControls();
+
         void HandlePowerUpCollection(PowerUp& powerUp);
-        
+        void HandlePlayerAnimation();
+        void HandlePlayerDeath();
     private:
         Spritesheet spellSpritesheet;
         Spritesheet playerSpritesheet;
@@ -97,7 +100,6 @@ class Game {
         std::vector<UpgradeType> currentUpgrades = {};
         int health = maxHealth;
         HealthBar playerHealthBar = HealthBar(maxHealth);
-        int coins = 0;
         int timesIncreasedSpeed = 0;
         float timeHit = 0.0f;
 
@@ -123,7 +125,8 @@ class Game {
             MainMenu,
             Playing,
             Upgrading,
-            GameOver
+            GameOver,
+            Tutorial
 
         } state = MainMenu;
 
@@ -140,5 +143,5 @@ class Game {
 #include "Upgrading.hpp"
 #include "Collisions.hpp"
 #include "GameOver.hpp"
-
+#include "Tutorial.hpp"
 

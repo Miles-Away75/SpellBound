@@ -47,6 +47,9 @@ void Game::Update() {
         case GameOver:
             UpdateGameOver();
             return;
+        case Tutorial:
+            UpdateTutorial();
+            return;
 
     }
 }

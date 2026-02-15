@@ -9,7 +9,7 @@ void Game::UpdateMainMenu() {
     DrawButton(PlayButton, "Play");
     DrawButton(QuitButton, "Quit");
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && CheckCollisionPointRec(GetMousePosition(), PlayButton)) {
-        state = Playing;
+        state = Tutorial;
     }
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && CheckCollisionPointRec(GetMousePosition(), QuitButton)) {
         isRunning = false;
