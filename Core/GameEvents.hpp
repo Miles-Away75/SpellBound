@@ -41,7 +41,16 @@ void Game::GetPlayerControls() {
         playerVel.x += currentPlayerAcceleration;
         playerDirection = 0;
     }
-    
+    if (IsKeyPressed(KEY_LEFT_SHIFT)) {
+        while (true) {
+            BeginDrawing();
+            DrawText("Paused", 375, 275, 50, BLACK);
+            EndDrawing();
+            if (IsKeyPressed(KEY_LEFT_SHIFT)) {
+                break;
+            }
+        }
+    }
 }
 void Game::GetPlayerSpellControls() {
     for (const auto& pair : bindedSpells) {

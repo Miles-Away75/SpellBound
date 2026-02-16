@@ -32,7 +32,7 @@ Rectangle card1Button = {50, 450, 200, 50};
 Rectangle card2Button = {300, 450, 200, 50};
 Rectangle card3Button = {550, 450, 200, 50};
 
-Rectangle rerollButton = {325, 525, 150, 50};
+Rectangle rerollButton = {325, 100, 150, 50};
 
 void Game::UpdateUpgrading() {
     EventsUpgrading();
@@ -103,7 +103,7 @@ void Game::DrawPickingUpgrade() {
                 spellSpritesheet.draw(spellSprites.at(upgrade.spellUpgrade), {card.x + 100, card.y + 50, 48, 48});
                 break;
             case AbilityUpgrade:
-                abilitySpritesheet.draw(abilitySprites.at(upgrade.abilityUpgrade), {card.x + 50, card.y + 40, 44, 52});
+                abilitySpritesheet.draw(abilitySprites.at(upgrade.abilityUpgrade), {card.x + 100, card.y + 50, 44, 52});
                 break;
             default:
                 break;
