@@ -122,7 +122,7 @@ class Game {
         std::vector<PowerUp> powerUps;
         std::vector<Upgrade> currentUpgrades = {};
         int health = maxHealth;
-        int coins = 0;
+        int coins = 20; 
         int rerollsLeft = 3;
         HealthBar playerHealthBar = HealthBar(maxHealth);
         int timesIncreasedSpeed = 0;

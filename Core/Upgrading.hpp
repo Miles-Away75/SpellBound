@@ -32,7 +32,7 @@ Rectangle card1Button = {50, 450, 200, 50};
 Rectangle card2Button = {300, 450, 200, 50};
 Rectangle card3Button = {550, 450, 200, 50};
 
-Rectangle rerollButton = {350, 525, 100, 50};
+Rectangle rerollButton = {325, 525, 150, 50};
 
 void Game::UpdateUpgrading() {
     EventsUpgrading();
@@ -95,17 +95,15 @@ void Game::DrawPickingUpgrade() {
         Rectangle card = ((std::vector<Rectangle>){card1, card2, card3})[i];
         Rectangle button = ((std::vector<Rectangle>){card1Button, card2Button, card3Button})[i];
         DrawButton(button, "Buy", (coins >= upgrade.price) ? GREEN : RED);
-        coin.draw({button.x + button.width + 10, button.y + 10}, 0.5f);
-        DrawText(TextFormat("%d", upgrade.price), button.x + button.width + 50, button.y + 10, 20, BLACK);
+        coin.draw({button.x + 78, button.y + 70}, 0.5f);
+        DrawText(TextFormat("%d", upgrade.price), button.x + 100, button.y + 70, 20, BLACK);
         
         switch (upgrade.type) {
             case SpellUpgrade:
-                std::cout << "Drawing spell upgrade : " << upgrade.spellUpgrade << "\n";
-                spellSpritesheet.draw(spellSprites.at(upgrade.spellUpgrade), {card.x + 20, card.y + 40, 48, 48});
+                spellSpritesheet.draw(spellSprites.at(upgrade.spellUpgrade), {card.x + 100, card.y + 50, 48, 48});
                 break;
             case AbilityUpgrade:
-                std::cout << "Drawing ability upgrade : " << upgrade.abilityUpgrade << "\n";
-                abilitySpritesheet.draw(abilitySprites.at(upgrade.abilityUpgrade), {card.x + 20, card.y + 40, 44, 52});
+                abilitySpritesheet.draw(abilitySprites.at(upgrade.abilityUpgrade), {card.x + 50, card.y + 40, 44, 52});
                 break;
             default:
                 break;
